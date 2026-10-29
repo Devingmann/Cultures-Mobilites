@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String     @id @default(cuid())
+  name         String
+  email        String     @unique
+  passwordHash String
+  role         String     @default("MEMBER") // MEMBER | ADMIN
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  sessions     Session[]
+  files        FileItem[]
+  votes        Vote[]
+  posts        Post[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Setting {
+  key   String @id
+  value String
+}
+
+model PollOption {
+  id          String  @id @default(cuid())
+  emoji       String
+  label       String
+  description String
+  order       Int     @default(0)
+  votes       Vote[]
+}
+
+model Vote {
+  id        String     @id @default(cuid())
+  userId    String
+  optionId  String
+  createdAt DateTime   @default(now())
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  option    PollOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, optionId])
+  @@index([optionId])
+}
+
+model FileItem {
+  id           String   @id @default(cuid())
+  title        String
+  description  String?
+  category     String // PHOTO | CREATION | TEMOIGNAGE | DOCUMENT
+  fileName     String
+  originalName String
+  mimeType     String
+  size         Int
+  uploaderId   String
+  uploader     User     @relation(fields: [uploaderId], references: [id], onDelete: Cascade)
+  posts        Post[]   // côté opposé de Post.mediaFile
+  createdAt    DateTime @default(now())
+
+  @@index([uploaderId])
+  @@index([category])
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  content     String
+  kind        String    @default("ARTICLE") // ARTICLE | PHOTO | CAPSULE
+  coverName   String?
+  mediaFileId String?
+  mediaFile   FileItem? @relation(fields: [mediaFileId], references: [id], onDelete: SetNull)
+  published   Boolean   @default(true)
+  authorId    String
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([authorId])
+}
