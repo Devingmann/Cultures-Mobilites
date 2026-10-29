@@ -12,12 +12,15 @@ import {
   Mic,
   Lock,
   Download,
+  Pencil,
 } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { api } from "@/lib/api-client";
 import { useSession } from "./providers";
+import { EditorDialog } from "./journal-view";
 import { formatDateFr, type ArticleDto } from "./types";
 
 export function ArticleView({
@@ -28,6 +31,7 @@ export function ArticleView({
   navigate: (path: string) => void;
 }) {
   const { user } = useSession();
+  const [editOpen, setEditOpen] = useState(false);
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["post", slug],
@@ -196,16 +200,39 @@ export function ArticleView({
         )}
 
         {(post.isMine || user?.role === "ADMIN") && (
-          <div className="mt-10 flex justify-end border-t border-brand-teal/10 pt-5">
-            <Button
-              variant="outline"
-              className="h-11 rounded-full border-destructive/40 text-destructive hover:bg-destructive/5"
-              onClick={remove}
-            >
-              <Trash2 className="mr-2 h-4 w-4" aria-hidden />
-              Supprimer cet article
-            </Button>
-          </div>
+          <>
+            <div className="mt-10 flex flex-wrap justify-end gap-3 border-t border-brand-teal/10 pt-5">
+              <Button
+                variant="outline"
+                className="h-11 rounded-full border-brand-teal/40 text-brand-deep hover:bg-brand-teal/5"
+                onClick={() => setEditOpen(true)}
+              >
+                <Pencil className="mr-2 h-4 w-4" aria-hidden />
+                Modifier cet article
+              </Button>
+              <Button
+                variant="outline"
+                className="h-11 rounded-full border-destructive/40 text-destructive hover:bg-destructive/5"
+                onClick={remove}
+              >
+                <Trash2 className="mr-2 h-4 w-4" aria-hidden />
+                Supprimer
+              </Button>
+            </div>
+            <EditorDialog
+              open={editOpen}
+              onOpenChange={setEditOpen}
+              navigate={navigate}
+              initial={{
+                slug: post.slug,
+                title: post.title,
+                content: post.content,
+                kind: post.kind,
+                coverName: post.coverName,
+                mediaFileId: post.media?.id ?? null,
+              }}
+            />
+          </>
         )}
       </article>
     </div>

@@ -35,6 +35,14 @@ export function Footer({ navigate }: { navigate: (path: string) => void }) {
             Les espaces
           </p>
           <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
+            <li className="rounded-lg bg-white/60 px-3 py-2">
+              <button
+                onClick={() => navigate("sorties")}
+                className="min-h-8 text-left transition hover:text-brand-teal hover:underline"
+              >
+                Sorties & lieux à découvrir
+              </button>
+            </li>
             {[
               { path: "journal", label: "Journal du groupe" },
               { path: "sondage", label: "Sondage de la prochaine sortie" },

@@ -45,6 +45,7 @@ async function main() {
   for (const [src, dst] of [
     ["public/images/hero-wide.png", "public/covers/seed-illustration-sortie.png"],
     ["public/images/journal-art.png", "public/covers/seed-illustration-journal.png"],
+    ["public/images/la-fenetre.png", "public/covers/seed-la-fenetre.png"],
   ] as const) {
     const from = path.join(process.cwd(), src);
     const to = path.join(process.cwd(), dst);
@@ -88,11 +89,17 @@ async function main() {
     console.log(`• Sondage déjà peuplé (${existing} options)`);
   }
 
-  // ---- Articles ----
-  const postsCount = await db.post.count();
-  if (postsCount === 0) {
-    await db.post.createMany({
-      data: [
+  // ---- Articles (création idempotente par slug) ----
+  type PostSeed = {
+    slug: string;
+    title: string;
+    kind: string;
+    coverName?: string;
+    authorId: string;
+    createdAt: Date;
+    content: string;
+  };
+  const postsData: PostSeed[] = [
         {
           slug: "compte-rendu-temps-de-groupe-6-octobre",
           title: "Compte rendu du temps de groupe du 6 octobre",
@@ -174,12 +181,57 @@ Le droit à l'image et la parole de chacun sont au cœur du projet. Quelques rep
 
 Bonne lecture, et surtout, bonne écriture !`,
         },
-      ],
-    });
-    console.log("✔ 3 articles de journal créés");
-  } else {
-    console.log(`• Journal déjà peuplé (${postsCount} articles)`);
+        {
+          slug: "prochaine-sortie-12-novembre-la-fenetre",
+          title: "Prochaine sortie : jeudi 12 novembre au Centre d'Art La Fenêtre",
+          kind: "ARTICLE",
+          coverName: "seed-la-fenetre.png",
+          authorId: admin.id,
+          createdAt: new Date(),
+          content: `C'est décidé : notre prochaine sortie culturelle aura lieu le **jeudi 12 novembre 2026** au **Centre d'Art La Fenêtre**, installé dans l'aile droite de l'Opéra Comédie, face à la place de la Comédie à Montpellier.
+
+## Une exposition pour décloisonner les disciplines
+
+L'exposition d'automne 2026 explore **l'architecture, le design graphique et l'espace urbain** : design d'objet, typographie, fabrique urbaine… un programme qui fait écho à nos balades urbaines et à notre envie de comprendre la ville autrement.
+
+## Informations pratiques
+
+- **Entrée : 100 % libre** pour toutes et tous
+- **Horaires :** du mercredi au samedi, de 13h00 à 18h00
+- **Mobilité APIJE :** tramways lignes 1 et 2 (arrêt Comédie)
+
+Leslie Vorstermans se renseigne actuellement sur les **créneaux horaires** précis pour le groupe. Les consignes seront annoncées clairement en amont, comme convenu lors de notre dernier temps de groupe : programme détaillé, pique-nique rappelé, timing assoupli.
+
+Et pour finir en douceur : un **debriefing convivial en terrasse** de la Comédie, juste en face. La fiche complète (plan, horaires, accès) est dans l'onglet **Sorties** du site.
+
+> Le sondage reste ouvert pour préparer les prochaines propositions : musée Fabre, Lodève, MO.CO. Panacée, Pavillon Populaire, Carré Sainte-Anne, Jardin des Plantes… Votez pour celles qui vous tentent !`,
+        },
+        {
+          slug: "compte-rendu-27-novembre",
+          title: "Compte rendu du temps de groupe du 27 novembre",
+          kind: "ARTICLE",
+          authorId: admin.id,
+          createdAt: new Date(),
+          content: `**Rédaction en cours.** Le compte rendu de notre temps de groupe du 27 novembre est en cours de préparation : il sera publié et complété ici dès qu'il sera finalisé.
+
+En attendant, voici ce qui vous attend d'ici là :
+
+- Notre **sortie du jeudi 12 novembre** au Centre d'Art La Fenêtre — l'annonce complète est dans le journal, la fiche pratique dans l'onglet **Sorties**
+- Le **sondage** reste ouvert : votez pour les lieux qui vous tentent pour les prochaines sorties (plusieurs choix possibles)
+- Les **photos et créations** peuvent être déposées dans le drive dès maintenant — la galerie les met en valeur pour tout le groupe
+
+*Si vous souhaitez participer à la rédaction de ce compte rendu — une anecdote, un ressenti, une photo commentée — parlez-en aux animateurs : chacun peut écrire dans le journal.*`,
+        },
+  ];
+  let created = 0;
+  for (const p of postsData) {
+    const exists = await db.post.findUnique({ where: { slug: p.slug } });
+    if (!exists) {
+      await db.post.create({ data: p });
+      created++;
+    }
   }
+  console.log(created > 0 ? `✔ ${created} article(s) ajouté(s) au journal` : "• Journal déjà à jour");
 }
 
 main()

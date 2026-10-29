@@ -16,6 +16,7 @@ import {
   Vote,
   Newspaper,
   Home,
+  Map,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,6 +36,7 @@ import { api } from "@/lib/api-client";
 const LINKS = [
   { view: "accueil", label: "Accueil", icon: Home, locked: false },
   { view: "journal", label: "Journal", icon: Newspaper, locked: false },
+  { view: "sorties", label: "Sorties", icon: Map, locked: false },
   { view: "sondage", label: "Sondage", icon: Vote, locked: false },
   { view: "galerie", label: "Galerie", icon: Images, locked: true },
   { view: "drive", label: "Drive", icon: FolderOpen, locked: true },
@@ -106,7 +108,7 @@ export function Navbar({
         </button>
 
         {/* Navigation bureau */}
-        <ul className="hidden items-center gap-1 md:flex">
+        <ul className="hidden items-center gap-0.5 lg:flex">
           {LINKS.map(({ view, label, locked }) => {
             const active = route.view === view;
             const gated = locked && !user;
@@ -137,7 +139,7 @@ export function Navbar({
             <>
               <Button
                 variant="ghost"
-                className="h-11 hidden sm:inline-flex"
+                className="h-11 hidden xl:inline-flex"
                 onClick={() => go("connexion")}
               >
                 Connexion
@@ -200,7 +202,7 @@ export function Navbar({
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
               <button
-                className="flex h-11 w-11 items-center justify-center rounded-full hover:bg-brand-teal/5 md:hidden"
+                className="flex h-11 w-11 items-center justify-center rounded-full hover:bg-brand-teal/5 lg:hidden"
                 aria-label="Ouvrir le menu"
               >
                 <Menu className="h-5 w-5" />

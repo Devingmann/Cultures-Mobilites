@@ -12,6 +12,7 @@ import { EspaceView } from "./espace-view";
 import { DriveView } from "./drive-view";
 import { GalerieView } from "./galerie-view";
 import { SondageView } from "./sondage-view";
+import { SortiesView } from "./sorties-view";
 import { JournalView } from "./journal-view";
 import { ArticleView } from "./article-view";
 import { AdminView } from "./admin-view";
@@ -53,6 +54,9 @@ function Shell() {
       break;
     case "sondage":
       content = <SondageView navigate={navigate} />;
+      break;
+    case "sorties":
+      content = <SortiesView navigate={navigate} />;
       break;
     case "journal":
       content = route.param ? (

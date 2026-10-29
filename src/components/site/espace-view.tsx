@@ -79,23 +79,24 @@ export function EspaceView({ navigate }: { navigate: (path: string) => void }) {
       <div className="mt-8 overflow-hidden rounded-3xl bg-teal-violet p-7 text-white shadow-lift">
         <Badge className="rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-white">
           <CalendarDays className="mr-1.5 h-3.5 w-3.5" aria-hidden />
-          Prochaine étape
+          Prochaine sortie · jeudi 12 novembre
         </Badge>
         <h2 className="mt-3 font-display text-2xl font-bold">
-          La sortie culturelle de novembre se prépare
+          Centre d&apos;Art La Fenêtre — Montpellier, place de la Comédie
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/85">
-          Entre chaque sortie, le groupe se réunit pour un temps de debrief et pour
-          alimenter le journal. Le lieu de la prochaine sortie se décide au sondage —
-          votre avis compte !
+          Architecture, design graphique et espace urbain — entrée 100 % libre.
+          Leslie Vorstermans précise les créneaux horaires. Le debrief se fera
+          en terrasse de la Comédie, et le sondage continue pour préparer les
+          propositions suivantes.
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
           <Button
             className="h-11 rounded-full bg-white px-6 font-semibold text-brand-deep hover:bg-white/90"
-            onClick={() => navigate("sondage")}
+            onClick={() => navigate("sorties")}
           >
-            <Vote className="mr-2 h-4.5 w-4.5" aria-hidden />
-            Donner mon avis
+            <Images className="mr-2 h-4.5 w-4.5" aria-hidden />
+            Voir la fiche de la sortie
           </Button>
           <Button
             variant="outline"

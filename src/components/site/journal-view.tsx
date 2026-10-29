@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -97,16 +97,28 @@ function PostCard({
   );
 }
 
-function EditorDialog({
+export type EditorInitial = {
+  slug: string;
+  title: string;
+  content: string;
+  kind: string;
+  coverName: string | null;
+  mediaFileId: string | null;
+};
+
+export function EditorDialog({
   open,
   onOpenChange,
   navigate,
+  initial = null,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
   navigate: (path: string) => void;
+  initial?: EditorInitial | null;
 }) {
   const queryClient = useQueryClient();
+  const editing = Boolean(initial?.slug);
   const { data: myFiles } = useQuery({
     queryKey: ["files", "mine-for-editor"],
     queryFn: () => api<{ items: FileDto[] }>("/api/files"),
@@ -124,6 +136,27 @@ function EditorDialog({
   const [cover, setCover] = useState<{ name: string; url: string } | null>(null);
   const [loading, setLoading] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
+
+  // préremplissage en mode modification
+  useEffect(() => {
+    if (open && initial) {
+      setTitle(initial.title);
+      setContent(initial.content);
+      setKind(initial.kind);
+      setMediaFileId(initial.mediaFileId ?? "none");
+      setCover(
+        initial.coverName
+          ? { name: initial.coverName, url: `/covers/${initial.coverName}` }
+          : null
+      );
+    } else if (open && !initial) {
+      setTitle("");
+      setContent("");
+      setKind("ARTICLE");
+      setMediaFileId("none");
+      setCover(null);
+    }
+  }, [open, initial]);
 
   const uploadCover = async (file: File) => {
     setUploadingCover(true);
@@ -146,6 +179,23 @@ function EditorDialog({
   const submit = async () => {
     setLoading(true);
     try {
+      if (editing && initial) {
+        await api(`/api/posts/${initial.slug}`, {
+          method: "PUT",
+          body: JSON.stringify({
+            title,
+            content,
+            kind,
+            coverName: cover?.name ?? null,
+            mediaFileId: mediaFileId === "none" ? null : mediaFileId,
+          }),
+        });
+        toast.success("Article mis à jour.");
+        await queryClient.invalidateQueries({ queryKey: ["posts"] });
+        await queryClient.invalidateQueries({ queryKey: ["post", initial.slug] });
+        onOpenChange(false);
+        return;
+      }
       const res = await api<{ item: PostDto }>("/api/posts", {
         method: "POST",
         body: JSON.stringify({
@@ -176,10 +226,13 @@ function EditorDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[92vh] overflow-y-auto rounded-2xl sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle className="font-display">Écrire dans le journal</DialogTitle>
+          <DialogTitle className="font-display">
+            {editing ? "Modifier l'article" : "Écrire dans le journal"}
+          </DialogTitle>
           <DialogDescription>
-            Un récit, un ressenti, une photo commentée… Mise en page simple : lignes
-            vides = paragraphes, <strong>**gras**</strong>, tirets pour les listes.
+            {editing
+              ? "Complétez ou ajustez le texte — le titre du lien (slug) reste inchangé."
+              : "Un récit, un ressenti, une photo commentée… Mise en page simple : lignes vides = paragraphes, **gras**, tirets pour les listes."}
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
@@ -285,10 +338,10 @@ function EditorDialog({
           <Button
             onClick={submit}
             disabled={loading || title.trim().length < 4 || content.trim().length < 20}
-            className="h-11 w-full rounded-xl bg-brand-violet hover:bg-brand-violet/90"
+            className={editing ? "h-11 w-full rounded-xl bg-brand-teal hover:bg-brand-teal/90" : "h-11 w-full rounded-xl bg-brand-violet hover:bg-brand-violet/90"}
           >
             {loading ? <Loader2 className="h-4.5 w-4.5 animate-spin" /> : <PenLine className="mr-1.5 h-4.5 w-4.5" aria-hidden />}
-            {loading ? "Publication…" : "Publier"}
+            {loading ? (editing ? "Enregistrement…" : "Publication…") : editing ? "Enregistrer les modifications" : "Publier"}
           </Button>
         </div>
       </DialogContent>

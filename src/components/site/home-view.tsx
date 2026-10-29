@@ -18,12 +18,14 @@ import {
   Mic,
   Lock,
   CalendarDays,
+  Map,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { api } from "@/lib/api-client";
 import { useSession } from "./providers";
 import { formatDateFr, type PollDto, type PostDto } from "./types";
+import { PROCHAINE } from "./sorties-data";
 
 const fadeUp = {
   initial: { opacity: 0, y: 18 },
@@ -33,6 +35,7 @@ const fadeUp = {
 
 export function HomeView({ navigate }: { navigate: (path: string) => void }) {
   const { user } = useSession();
+  const prochaine = PROCHAINE;
 
   const { data: poll } = useQuery({
     queryKey: ["poll"],
@@ -158,8 +161,18 @@ export function HomeView({ navigate }: { navigate: (path: string) => void }) {
           </p>
         </motion.div>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
+            {
+              icon: Map,
+              title: "Sorties & lieux",
+              text: "La sortie du 12 novembre au Centre d'Art La Fenêtre, les fiches des lieux à proposer et nos sorties réalisées.",
+              action: "Voir les sorties",
+              path: "sorties",
+              color: "text-white",
+              bg: "bg-orange-warm",
+              open: true,
+            },
             {
               icon: Newspaper,
               title: "Journal du groupe",
@@ -373,35 +386,57 @@ export function HomeView({ navigate }: { navigate: (path: string) => void }) {
         </div>
       </section>
 
-      {/* ---------------- SONDAGE TEASER ---------------- */}
-      {poll && (
+      {/* ---------------- PROCHAINE SORTIE ---------------- */}
+      {prochaine && (
         <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
           <motion.div
             {...fadeUp}
-            className="overflow-hidden rounded-[2rem] bg-teal-violet p-8 text-white shadow-lift sm:p-10"
+            className="overflow-hidden rounded-[2rem] bg-teal-violet text-white shadow-lift"
           >
-            <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
-              <div className="max-w-xl">
-                <Badge className="rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-white">
+            <div className="grid items-center md:grid-cols-5">
+              <div className="p-8 sm:p-10 md:col-span-3">
+                <Badge className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white">
                   <CalendarDays className="mr-1.5 h-3.5 w-3.5" aria-hidden />
-                  {poll.pollOpen ? "Sondage en cours" : "Sondage clôturé"}
+                  Prochaine sortie · {prochaine.date}
                 </Badge>
                 <h2 className="mt-4 font-display text-2xl font-bold leading-snug sm:text-3xl">
-                  {poll.pollTitle}
+                  {prochaine.nom} — entrée 100 % libre
                 </h2>
-                <p className="mt-2 text-sm text-white/85">
-                  {poll.options.length} destinations possibles — plusieurs choix
-                  autorisés, votes modifiables jusqu&apos;à la clôture.
+                <p className="mt-2 text-sm leading-relaxed text-white/85">
+                  {prochaine.tagline}, face à la place de la Comédie. Leslie
+                  Vorstermans précise les créneaux ; le debrief se fera en terrasse,
+                  comme on l&apos;aime. Toutes les infos (horaires, tram, plan) sur la
+                  fiche de la sortie.
                 </p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Button
+                    size="lg"
+                    className="h-12 rounded-full bg-white px-6 text-[15px] font-semibold text-brand-deep hover:bg-white/90"
+                    onClick={() => navigate("sorties")}
+                  >
+                    <Map className="mr-2 h-5 w-5" aria-hidden />
+                    Voir la fiche sortie
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="h-12 rounded-full border-white/40 bg-transparent px-6 text-[15px] font-semibold text-white hover:bg-white/10 hover:text-white"
+                    onClick={() => navigate("sondage")}
+                  >
+                    <Vote className="mr-2 h-5 w-5" aria-hidden />
+                    {poll?.pollOpen ? "Le sondage continue" : "Voir le sondage"}
+                  </Button>
+                </div>
               </div>
-              <Button
-                size="lg"
-                className="h-12 shrink-0 rounded-full bg-white px-7 text-[15px] font-semibold text-brand-deep hover:bg-white/90"
-                onClick={() => navigate("sondage")}
-              >
-                <Vote className="mr-2 h-5 w-5" aria-hidden />
-                Participer au vote
-              </Button>
+              <div className="relative min-h-44 md:col-span-2">
+                <Image
+                  src={prochaine.illustration ?? "/images/hero-wide.png"}
+                  alt="Illustration du centre d'art La Fenêtre, face à l'Opéra Comédie"
+                  width={1344}
+                  height={768}
+                  className="h-full w-full object-cover"
+                />
+              </div>
             </div>
           </motion.div>
         </section>
