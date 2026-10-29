@@ -1,0 +1,2018 @@
+## Error Type
+Console Error
+
+## Error Message
+A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:<Fragment>, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_size={"{\"x\":0,\"y\":0,\"w\":0,\"h\":0,\"abs_x\":1218,\"abs_y\":114}"}
+                      >
+                    ...
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="fr" suppressHydrationWarning={true}>
+                          <body
+                            className="outfit_cbfa4884-module__hWmOPq__variable inter_fe8b9d92-module__LINzvG__variabl..."
+-                           __processed_ee993d44-0204-4a65-b6c0-98b67a53402e__="true"
+-                           bis_status="ok"
+-                           bis_frame_id="224"
+-                           bis_body_id="fr_gmhxpx9mhfwvj27cbuxrl0"
+-                           bis_depth="0"
+-                           bis_chainid="4"
+-                           bis_size={"{\"x\":0,\"y\":0,\"w\":1938,\"h\":3496,\"abs_x\":1218,\"abs_y\":114}"}
+                          >
+                            ...
+                              <Shell>
+                                <div
+                                  className="flex min-h-screen flex-col bg-background"
+-                                 bis_size={"{\"x\":0,\"y\":0,\"w\":1938,\"h\":3496,\"abs_x\":1218,\"abs_y\":114}"}
+                                >
+                                  <Navbar route={{view:"accueil", ...}} ...>
+                                    <header
+                                      className="sticky top-0 z-40 border-b border-brand-teal/10 bg-white/85 backdrop-..."
+-                                     bis_size={"{\"x\":0,\"y\":0,\"w\":1938,\"h\":65,\"abs_x\":1218,\"abs_y\":114}"}
+                                    >
+                                      <nav
+                                        aria-label="Navigation principale"
+                                        className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4..."
+-                                       bis_size={"{\"x\":393,\"y\":0,\"w\":1151,\"h\":63,\"abs_x\":1611,\"abs_y\":114}"}
+                                      >
+                                        <button
+                                          onClick={function onClick}
+                                          className="flex min-h-11 items-center gap-2.5"
+                                          aria-label={"Cultures et Mobilités — retour à l'accueil"}
+-                                         bis_size={"{\"x\":417,\"y\":10,\"w\":220,\"h\":43,\"abs_x\":1635,\"abs_y\":..."}
+                                        >
+                                          <img
+                                            alt="Logo Cultures et Mobilités"
+                                            fetchPriority={undefined}
+                                            loading={undefined}
+                                            width={44}
+                                            height={44}
+                                            decoding="async"
+                                            data-nimg="1"
+                                            className="h-10 w-10"
+                                            style={{color:"transparent"}}
+                                            sizes={undefined}
+                                            srcSet={"/_next/image?url=%2Fimages%2Flogo-badge.png&w=48&q=75 1x, /_next..."}
+                                            src={"/_next/image?url=%2Fimages%2Flogo-badge.png&w=96&q=75"}
+                                            ref={function}
+                                            onLoad={function onLoad}
+                                            onError={function onError}
+-                                           bis_size={"{\"x\":417,\"y\":11,\"w\":40,\"h\":40,\"abs_x\":1635,\"abs_y\"..."}
+                                          >
+                                          ...
+                                          <span
+                                            className="flex flex-col items-start leading-none"
+-                                           bis_size={"{\"x\":467,\"y\":14,\"w\":170,\"h\":34,\"abs_x\":1685,\"abs_y\..."}
+                                          >
+                                            <span
+                                              className="font-display text-[15px] font-bold tracking-tight text-foregr..."
+-                                             bis_size={"{\"x\":467,\"y\":14,\"w\":141,\"h\":23,\"abs_x\":1685,\"abs_..."}
+                                            >
+                                              <span
+                                                className="text-brand-teal"
+-                                               bis_size={"{\"x\":528,\"y\":15,\"w\":14,\"h\":20,\"abs_x\":1746,\"abs..."}
+                                              >
++                                               et
+                                              ...
+                                            <span
+                                              className="hidden text-[11px] text-muted-foreground sm:block"
+-                                             bis_size={"{\"x\":467,\"y\":38,\"w\":170,\"h\":10,\"abs_x\":1685,\"abs_..."}
+                                            >
++                                             Photos, retours de sorties et avis
+                                        <ul
+                                          className="hidden items-center gap-0.5 lg:flex"
+-                                         bis_size={"{\"x\":689,\"y\":10,\"w\":507,\"h\":43,\"abs_x\":1907,\"abs_y\":..."}
+                                        >
+                                          <li
+-                                           bis_size={"{\"x\":689,\"y\":10,\"w\":77,\"h\":43,\"abs_x\":1907,\"abs_y\"..."}
+                                          >
+                                            <button
+                                              onClick={function onClick}
+                                              aria-current="page"
+                                              className="flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-s..."
+-                                             bis_size={"{\"x\":689,\"y\":10,\"w\":77,\"h\":43,\"abs_x\":1907,\"abs_y..."}
+                                            >
+                                          <li
+-                                           bis_size={"{\"x\":769,\"y\":10,\"w\":78,\"h\":43,\"abs_x\":1987,\"abs_y\"..."}
+                                          >
+                                            <button
+                                              onClick={function onClick}
+                                              aria-current={undefined}
+                                              className="flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-s..."
+-                                             bis_size={"{\"x\":769,\"y\":10,\"w\":78,\"h\":43,\"abs_x\":1987,\"abs_y..."}
+                                            >
+                                          <li
+-                                           bis_size={"{\"x\":849,\"y\":10,\"w\":75,\"h\":43,\"abs_x\":2067,\"abs_y\"..."}
+                                          >
+                                            <button
+                                              onClick={function onClick}
+                                              aria-current={undefined}
+                                              className="flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-s..."
+-                                             bis_size={"{\"x\":849,\"y\":10,\"w\":75,\"h\":43,\"abs_x\":2067,\"abs_y..."}
+                                            >
+                                          <li
+-                                           bis_size={"{\"x\":926,\"y\":10,\"w\":87,\"h\":43,\"abs_x\":2144,\"abs_y\"..."}
+                                          >
+                                            <button
+                                              onClick={function onClick}
+                                              aria-current={undefined}
+                                              className="flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-s..."
+-                                             bis_size={"{\"x\":926,\"y\":10,\"w\":87,\"h\":43,\"abs_x\":2144,\"abs_y..."}
+                                            >
+                                          <li
+-                                           bis_size={"{\"x\":1015,\"y\":10,\"w\":95,\"h\":43,\"abs_x\":2233,\"abs_y\..."}
+                                          >
+                                            <button
+                                              onClick={function onClick}
+                                              aria-current={undefined}
+                                              className="flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-s..."
+-                                             bis_size={"{\"x\":1015,\"y\":10,\"w\":95,\"h\":43,\"abs_x\":2233,\"abs_..."}
+                                            >
+                                              <Lock className="h-3.5 w-3...." aria-label="Réservé au...">
+                                                <svg
+                                                  ref={null}
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                  width={24}
+                                                  height={24}
+                                                  viewBox="0 0 24 24"
+                                                  fill="none"
+                                                  stroke="currentColor"
+                                                  strokeWidth={2}
+                                                  strokeLinecap="round"
+                                                  strokeLinejoin="round"
+                                                  className="lucide lucide-lock h-3.5 w-3.5 text-brand-orange"
+                                                  aria-label="Réservé aux membres"
+-                                                 bis_size={"{\"x\":1083,\"y\":25,\"w\":13,\"h\":13,\"abs_x\":2301,\"..."}
+                                                >
+                                                  <rect
+                                                    width="18"
+                                                    height="11"
+                                                    x="3"
+                                                    y="11"
+                                                    rx="2"
+                                                    ry="2"
+-                                                   bis_size={"{\"x\":1085,\"y\":31,\"w\":10,\"h\":6,\"abs_x\":2303,\..."}
+                                                  >
+                                                  <path
+                                                    d="M7 11V7a5 5 0 0 1 10 0v4"
+-                                                   bis_size={"{\"x\":1087,\"y\":26,\"w\":5,\"h\":5,\"abs_x\":2305,\"..."}
+                                                  >
+                                          <li
+-                                           bis_size={"{\"x\":1113,\"y\":10,\"w\":83,\"h\":43,\"abs_x\":2331,\"abs_y\..."}
+                                          >
+                                            <button
+                                              onClick={function onClick}
+                                              aria-current={undefined}
+                                              className="flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-s..."
+-                                             bis_size={"{\"x\":1113,\"y\":10,\"w\":83,\"h\":43,\"abs_x\":2331,\"abs_..."}
+                                            >
+                                              <Lock className="h-3.5 w-3...." aria-label="Réservé au...">
+                                                <svg
+                                                  ref={null}
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                  width={24}
+                                                  height={24}
+                                                  viewBox="0 0 24 24"
+                                                  fill="none"
+                                                  stroke="currentColor"
+                                                  strokeWidth={2}
+                                                  strokeLinecap="round"
+                                                  strokeLinejoin="round"
+                                                  className="lucide lucide-lock h-3.5 w-3.5 text-brand-orange"
+                                                  aria-label="Réservé aux membres"
+-                                                 bis_size={"{\"x\":1168,\"y\":25,\"w\":13,\"h\":13,\"abs_x\":2386,\"..."}
+                                                >
+                                                  <rect
+                                                    width="18"
+                                                    height="11"
+                                                    x="3"
+                                                    y="11"
+                                                    rx="2"
+                                                    ry="2"
+-                                                   bis_size={"{\"x\":1170,\"y\":31,\"w\":10,\"h\":6,\"abs_x\":2388,\..."}
+                                                  >
+                                                  <path
+                                                    d="M7 11V7a5 5 0 0 1 10 0v4"
+-                                                   bis_size={"{\"x\":1172,\"y\":26,\"w\":5,\"h\":5,\"abs_x\":2390,\"..."}
+                                                  >
+                                        <div
+                                          className="flex items-center gap-2"
+-                                         bis_size={"{\"x\":1247,\"y\":10,\"w\":273,\"h\":43,\"abs_x\":2465,\"abs_y\"..."}
+                                        >
+                                          <Button variant="ghost" className="h-11 hidde..." onClick={function onClick}>
+                                            <button
+                                              data-slot="button"
+                                              className={"items-center justify-center gap-2 whitespace-nowrap rounded..."}
+                                              onClick={function onClick}
+-                                             bis_size={"{\"x\":1247,\"y\":10,\"w\":103,\"h\":43,\"abs_x\":2465,\"abs..."}
+                                            >
++                                             Connexion
+                                          <Button className="h-11 bg-br..." onClick={function onClick}>
+                                            <button
+                                              data-slot="button"
+                                              className={"inline-flex items-center justify-center gap-2 whitespace-no..."}
+                                              onClick={function onClick}
+-                                             bis_size={"{\"x\":1359,\"y\":10,\"w\":161,\"h\":43,\"abs_x\":2577,\"abs..."}
+                                            >
++                                             Rejoindre le groupe
+                                          ...
+                                            <Primitive.button type="button" aria-haspopup="dialog" aria-expanded={false} ...>
+                                              <Primitive.button.Slot type="button" aria-haspopup="dialog" ...>
+                                                <Primitive.button.SlotClone type="button" aria-haspopup="dialog" ...>
+                                                  <button
+                                                    className="flex h-11 w-11 items-center justify-center rounded-full..."
+                                                    aria-label="Ouvrir le menu"
+                                                    type="button"
+                                                    aria-haspopup="dialog"
+                                                    aria-expanded={false}
+                                                    aria-controls="radix-_R_5lindlb_"
+                                                    data-state="closed"
+                                                    data-slot="sheet-trigger"
+                                                    onClick={function handleEvent}
+                                                    ref={function}
+-                                                   bis_size={"{\"x\":0,\"y\":0,\"w\":0,\"h\":0,\"abs_x\":1218,\"abs_..."}
+                                                  >
+                                                    <Menu className="h-5 w-5">
+                                                      <svg
+                                                        ref={null}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width={24}
+                                                        height={24}
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeWidth={2}
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        className="lucide lucide-menu h-5 w-5"
+                                                        aria-hidden="true"
+-                                                       bis_size={"{\"x\":0,\"y\":0,\"w\":0,\"h\":0,\"abs_x\":1218,\"..."}
+                                                      >
+                                                        <path
+                                                          d="M4 12h16"
+-                                                         bis_size={"{\"x\":0,\"y\":0,\"w\":0,\"h\":0,\"abs_x\":1218,..."}
+                                                        >
+                                                        <path
+                                                          d="M4 18h16"
+-                                                         bis_size={"{\"x\":0,\"y\":0,\"w\":0,\"h\":0,\"abs_x\":1218,..."}
+                                                        >
+                                                        <path
+                                                          d="M4 6h16"
+-                                                         bis_size={"{\"x\":0,\"y\":0,\"w\":0,\"h\":0,\"abs_x\":1218,..."}
+                                                        >
+                                      ...
+                                  <main
+                                    id="contenu"
+                                    className="flex-1"
+-                                   bis_size={"{\"x\":0,\"y\":65,\"w\":1938,\"h\":2982,\"abs_x\":1218,\"abs_y\":179}"}
+                                  >
+                                    ...
+                                      <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} ...>
+                                        <div
+                                          style={{opacity:0,transform:"translateY..."}}
+                                          ref={function useMotionRef.useCallback}
+-                                         bis_size={"{\"x\":0,\"y\":75,\"w\":1938,\"h\":2982,\"abs_x\":1218,\"abs_y\"..."}
+                                        >
+                                          <HomeView navigate={function useHashRoute.useCallback[navigate]}>
+                                            <div
+-                                             bis_size={"{\"x\":0,\"y\":75,\"w\":1938,\"h\":2982,\"abs_x\":1218,\"abs..."}
+                                            >
+                                              <section
+                                                className="relative overflow-hidden bg-hero-wash"
+-                                               bis_size={"{\"x\":0,\"y\":75,\"w\":1938,\"h\":595,\"abs_x\":1218,\"ab..."}
+                                              >
+                                                <div
+                                                  aria-hidden={true}
+                                                  className="animate-blob absolute -left-24 -top-24 h-80 w-80 bg-brand..."
+-                                                 bis_size={"{\"x\":-99,\"y\":-23,\"w\":326,\"h\":326,\"abs_x\":1119,..."}
+                                                >
+                                                <div
+                                                  aria-hidden={true}
+                                                  className="animate-blob absolute -bottom-32 right-4 h-96 w-96 bg-bra..."
+                                                  style={{animationDelay:"-7s"}}
+-                                                 bis_size={"{\"x\":1521,\"y\":397,\"w\":418,\"h\":418,\"abs_x\":2739..."}
+                                                >
+                                                <div
+                                                  aria-hidden={true}
+                                                  className="animate-blob absolute right-1/3 top-10 h-24 w-24 bg-brand..."
+                                                  style={{animationDelay:"-3s"}}
+-                                                 bis_size={"{\"x\":1192,\"y\":110,\"w\":104,\"h\":104,\"abs_x\":2410..."}
+                                                >
+                                                <div
+                                                  className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 ..."
+-                                                 bis_size={"{\"x\":393,\"y\":75,\"w\":1151,\"h\":595,\"abs_x\":1611,..."}
+                                                >
+                                                  <div
+-                                                   bis_size={"{\"x\":417,\"y\":171,\"w\":532,\"h\":403,\"abs_x\":163..."}
+                                                  >
+                                                    <Badge className="rounded-fu...">
+                                                      <span
+                                                        data-slot="badge"
+                                                        className={"inline-flex items-center justify-center border w-..."}
+-                                                       bis_size={"{\"x\":417,\"y\":171,\"w\":447,\"h\":30,\"abs_x\":..."}
+                                                      >
+                                                        <Sparkles className="mr-1.5 h-3..." aria-hidden={true}>
+                                                          <svg
+                                                            ref={null}
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width={24}
+                                                            height={24}
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth={2}
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            className="lucide lucide-sparkles mr-1.5 h-3.5 w-3.5 text-..."
+                                                            aria-hidden={true}
+-                                                           bis_size={"{\"x\":434,\"y\":180,\"w\":11,\"h\":11,\"abs_x..."}
+                                                          >
+                                                            <path
+                                                              d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 ..."
+-                                                             bis_size={"{\"x\":435,\"y\":181,\"w\":9,\"h\":9,\"abs_x..."}
+                                                            >
+                                                            <path
+                                                              d="M20 3v4"
+-                                                             bis_size={"{\"x\":444,\"y\":181,\"w\":0,\"h\":1,\"abs_x..."}
+                                                            >
+                                                            <path
+                                                              d="M22 5h-4"
+-                                                             bis_size={"{\"x\":443,\"y\":182,\"w\":1,\"h\":0,\"abs_x..."}
+                                                            >
+                                                            <path
+                                                              d="M4 17v2"
+-                                                             bis_size={"{\"x\":436,\"y\":188,\"w\":0,\"h\":0,\"abs_x..."}
+                                                            >
+                                                            <path
+                                                              d="M5 18H3"
+-                                                             bis_size={"{\"x\":436,\"y\":189,\"w\":0,\"h\":0,\"abs_x..."}
+                                                            >
+                                                        ...
+                                                    <h1
+                                                      className="mt-5 font-display text-4xl font-extrabold leading-[1...."
+-                                                     bis_size={"{\"x\":417,\"y\":221,\"w\":532,\"h\":129,\"abs_x\":1..."}
+                                                    >
+                                                      <span
+                                                        className="text-gradient"
+-                                                       bis_size={"{\"x\":650,\"y\":215,\"w\":54,\"h\":75,\"abs_x\":1..."}
+                                                      >
++                                                       et
+                                                      ...
+                                                    <p
+                                                      className="mt-5 max-w-xl text-base leading-relaxed text-foregrou..."
+-                                                     bis_size={"{\"x\":417,\"y\":371,\"w\":532,\"h\":87,\"abs_x\":16..."}
+                                                    >
++                                                     Photos, retours de sorties et avis : le site du groupe pour garde...
+                                                    <div
+                                                      className="mt-8 flex flex-wrap gap-3"
+-                                                     bis_size={"{\"x\":417,\"y\":491,\"w\":532,\"h\":47,\"abs_x\":16..."}
+                                                    >
+                                                      <Button size="lg" className="h-12 round..." ...>
+                                                        <button
+                                                          data-slot="button"
+                                                          className={"inline-flex items-center justify-center gap-2 w..."}
+                                                          onClick={function onClick}
+-                                                         bis_size={"{\"x\":417,\"y\":491,\"w\":191,\"h\":47,\"abs_x\..."}
+                                                        >
+                                                          <Vote className="mr-2 h-5 w-5" aria-hidden={true}>
+                                                            <svg
+                                                              ref={null}
+                                                              xmlns="http://www.w3.org/2000/svg"
+                                                              width={24}
+                                                              height={24}
+                                                              viewBox="0 0 24 24"
+                                                              fill="none"
+                                                              stroke="currentColor"
+                                                              strokeWidth={2}
+                                                              strokeLinecap="round"
+                                                              strokeLinejoin="round"
+                                                              className="lucide lucide-vote mr-2 h-5 w-5"
+                                                              aria-hidden={true}
+-                                                             bis_size={"{\"x\":433,\"y\":507,\"w\":15,\"h\":15,\"abs..."}
+                                                            >
+                                                              <path
+                                                                d="m9 12 2 2 4-4"
+-                                                               bis_size={"{\"x\":439,\"y\":513,\"w\":3,\"h\":2,\"abs..."}
+                                                              >
+                                                              <path
+                                                                d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"
+-                                                               bis_size={"{\"x\":436,\"y\":510,\"w\":9,\"h\":9,\"abs..."}
+                                                              >
+                                                              <path
+                                                                d="M22 19H2"
+-                                                               bis_size={"{\"x\":434,\"y\":519,\"w\":13,\"h\":0,\"ab..."}
+                                                              >
+                                                          ...
+                                                      <Button size="lg" variant="outline" className="h-12 round..." ...>
+                                                        <button
+                                                          data-slot="button"
+                                                          className={"inline-flex items-center justify-center gap-2 w..."}
+                                                          onClick={function onClick}
+-                                                         bis_size={"{\"x\":620,\"y\":491,\"w\":163,\"h\":47,\"abs_x\..."}
+                                                        >
+                                                          <Newspaper className="mr-2 h-5 w..." aria-hidden={true}>
+                                                            <svg
+                                                              ref={null}
+                                                              xmlns="http://www.w3.org/2000/svg"
+                                                              width={24}
+                                                              height={24}
+                                                              viewBox="0 0 24 24"
+                                                              fill="none"
+                                                              stroke="currentColor"
+                                                              strokeWidth={2}
+                                                              strokeLinecap="round"
+                                                              strokeLinejoin="round"
+                                                              className="lucide lucide-newspaper mr-2 h-5 w-5 text-bra..."
+                                                              aria-hidden={true}
+-                                                             bis_size={"{\"x\":637,\"y\":507,\"w\":15,\"h\":15,\"abs..."}
+                                                            >
+                                                              <path
+                                                                d="M15 18h-5"
+-                                                               bis_size={"{\"x\":644,\"y\":519,\"w\":3,\"h\":0,\"abs..."}
+                                                              >
+                                                              <path
+                                                                d="M18 14h-8"
+-                                                               bis_size={"{\"x\":644,\"y\":516,\"w\":5,\"h\":0,\"abs..."}
+                                                              >
+                                                              <path
+                                                                d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-..."
+-                                                               bis_size={"{\"x\":639,\"y\":508,\"w\":13,\"h\":13,\"a..."}
+                                                              >
+                                                              <rect
+                                                                width="8"
+                                                                height="4"
+                                                                x="10"
+                                                                y="6"
+                                                                rx="1"
+-                                                               bis_size={"{\"x\":644,\"y\":511,\"w\":5,\"h\":2,\"abs..."}
+                                                              >
+                                                          ...
+                                                    <p
+                                                      className="mt-4 text-sm text-muted-foreground"
+-                                                     bis_size={"{\"x\":417,\"y\":555,\"w\":532,\"h\":20,\"abs_x\":16..."}
+                                                    >
+                                                      <button
+                                                        onClick={function onClick}
+                                                        className="font-semibold text-brand-teal underline-offset-4 ho..."
+-                                                       bis_size={"{\"x\":417,\"y\":555,\"w\":133,\"h\":20,\"abs_x\":..."}
+                                                      >
++                                                       Rejoignez le groupe
+                                                      ...
+                                                  <div
+                                                    className="relative mx-auto w-full max-w-md"
+-                                                   bis_size={"{\"x\":1031,\"y\":173,\"w\":447,\"h\":400,\"abs_x\":22..."}
+                                                  >
+                                                    <motion.div initial={{opacity:0, ...}} animate={{opacity:1,scale:1}} ...>
+                                                      <div
+                                                        className="relative"
+                                                        style={{opacity:0,transform:"scale(0.92)"}}
+                                                        ref={function useMotionRef.useCallback}
+-                                                       bis_size={"{\"x\":1049,\"y\":189,\"w\":412,\"h\":368,\"abs_x\..."}
+                                                      >
+                                                        <div
+                                                          className="animate-floaty relative overflow-hidden rounded-[..."
+-                                                         bis_size={"{\"x\":1046,\"y\":178,\"w\":418,\"h\":374,\"abs_..."}
+                                                        >
+                                                          <img
+                                                            alt="Logo du groupe Cultures et Mobilités : masque de théâ..."
+                                                            fetchPriority={undefined}
+                                                            loading={undefined}
+                                                            width={420}
+                                                            height={420}
+                                                            decoding="async"
+                                                            data-nimg="1"
+                                                            className="mx-auto h-auto w-full max-w-[340px]"
+                                                            style={{color:"transparent"}}
+                                                            sizes={undefined}
+                                                            srcSet={"/_next/image?url=%2Fimages%2Flogo-badge.png&w=64..."}
+                                                            src={"/_next/image?url=%2Fimages%2Flogo-badge.png&w=1080&..."}
+                                                            ref={function}
+                                                            onLoad={function onLoad}
+                                                            onError={function onError}
+-                                                           bis_size={"{\"x\":1096,\"y\":202,\"w\":318,\"h\":326,\"ab..."}
+                                                          >
+                                                          ...
+                                                        <div
+                                                          className="absolute -left-4 top-8 hidden rounded-2xl border ..."
+-                                                         bis_size={"{\"x\":1034,\"y\":218,\"w\":181,\"h\":39,\"abs_x..."}
+                                                        >
+                                                          <p
+                                                            className="flex items-center gap-2 text-sm font-semibold t..."
+-                                                           bis_size={"{\"x\":1050,\"y\":228,\"w\":149,\"h\":18,\"abs..."}
+                                                          >
+                                                            <Vote className="h-4 w-4 te..." aria-hidden={true}>
+                                                              <svg
+                                                                ref={null}
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                width={24}
+                                                                height={24}
+                                                                viewBox="0 0 24 24"
+                                                                fill="none"
+                                                                stroke="currentColor"
+                                                                strokeWidth={2}
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                className="lucide lucide-vote h-4 w-4 text-brand-teal"
+                                                                aria-hidden={true}
+-                                                               bis_size={"{\"x\":1050,\"y\":230,\"w\":14,\"h\":14,\"..."}
+                                                              >
+                                                                <path
+                                                                  d="m9 12 2 2 4-4"
+-                                                                 bis_size={"{\"x\":1055,\"y\":236,\"w\":3,\"h\":2,\"..."}
+                                                                >
+                                                                <path
+                                                                  d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"
+-                                                                 bis_size={"{\"x\":1053,\"y\":233,\"w\":8,\"h\":8,\"..."}
+                                                                >
+                                                                <path
+                                                                  d="M22 19H2"
+-                                                                 bis_size={"{\"x\":1051,\"y\":242,\"w\":12,\"h\":0,\..."}
+                                                                >
+                                                            ...
+                                                        <div
+                                                          className="absolute -bottom-4 -right-2 hidden rounded-2xl bo..."
+-                                                         bis_size={"{\"x\":1296,\"y\":532,\"w\":172,\"h\":39,\"abs_x..."}
+                                                        >
+                                                          <p
+                                                            className="flex items-center gap-2 text-sm font-semibold t..."
+-                                                           bis_size={"{\"x\":1311,\"y\":543,\"w\":140,\"h\":18,\"abs..."}
+                                                          >
+                                                            <Camera className="h-4 w-4" aria-hidden={true}>
+                                                              <svg
+                                                                ref={null}
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                width={24}
+                                                                height={24}
+                                                                viewBox="0 0 24 24"
+                                                                fill="none"
+                                                                stroke="currentColor"
+                                                                strokeWidth={2}
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                className="lucide lucide-camera h-4 w-4"
+                                                                aria-hidden={true}
+-                                                               bis_size={"{\"x\":1311,\"y\":544,\"w\":14,\"h\":14,\"..."}
+                                                              >
+                                                                <path
+                                                                  d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16..."
+-                                                                 bis_size={"{\"x\":1313,\"y\":547,\"w\":12,\"h\":9,\..."}
+                                                                >
+                                                                <circle
+                                                                  cx="12"
+                                                                  cy="13"
+                                                                  r="3"
+-                                                                 bis_size={"{\"x\":1317,\"y\":551,\"w\":3,\"h\":3,\"..."}
+                                                                >
+                                                            ...
+                                              <section
+                                                className="mx-auto max-w-6xl px-4 py-16 sm:px-6"
+-                                               bis_size={"{\"x\":393,\"y\":671,\"w\":1151,\"h\":770,\"abs_x\":1611,\..."}
+                                              >
+                                                <motion.div initial={{opacity:0,y:18}} whileInView={{opacity:1,y:0}} ...>
+                                                  <div
+                                                    className="mx-auto max-w-2xl text-center"
+                                                    style={{opacity:0,transform:"translateY..."}}
+                                                    ref={function useMotionRef.useCallback}
+-                                                   bis_size={"{\"x\":633,\"y\":753,\"w\":671,\"h\":99,\"abs_x\":1851..."}
+                                                  >
+                                                    <h2
+                                                      className="font-display text-3xl font-bold tracking-tight sm:tex..."
+-                                                     bis_size={"{\"x\":633,\"y\":753,\"w\":671,\"h\":39,\"abs_x\":18..."}
+                                                    >
++                                                     Un espace pour chaque envie
+                                                    <p
+                                                      className="mt-3 text-foreground/70"
+-                                                     bis_size={"{\"x\":633,\"y\":804,\"w\":671,\"h\":47,\"abs_x\":18..."}
+                                                    >
++                                                     {"Chacun participe selon ses facilités : à l'écrit, à l'oral, ..."}
+                                                <div
+                                                  className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+-                                                 bis_size={"{\"x\":417,\"y\":874,\"w\":1104,\"h\":502,\"abs_x\":1635..."}
+                                                >
+                                                  <motion.button initial={{opacity:0,y:16}} whileInView={{opacity:1,y:0}} ...>
+                                                    <button
+                                                      onClick={function onClick}
+                                                      className="group flex flex-col rounded-3xl border border-brand-t..."
+                                                      style={{opacity:0,transform:"translateY..."}}
+                                                      ref={function useMotionRef.useCallback}
+-                                                     bis_size={"{\"x\":417,\"y\":890,\"w\":357,\"h\":254,\"abs_x\":1..."}
+                                                    >
+                                                      <span
+                                                        className="flex h-12 w-12 items-center justify-center rounded-..."
+-                                                       bis_size={"{\"x\":442,\"y\":916,\"w\":47,\"h\":47,\"abs_x\":1..."}
+                                                      >
+                                                        <Map className="h-6 w-6 te..." aria-hidden={true}>
+                                                          <svg
+                                                            ref={null}
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width={24}
+                                                            height={24}
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth={2}
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            className="lucide lucide-map h-6 w-6 text-white"
+                                                            aria-hidden={true}
+-                                                           bis_size={"{\"x\":454,\"y\":928,\"w\":23,\"h\":23,\"abs_x..."}
+                                                          >
+                                                            <path
+                                                              d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 ..."
+-                                                             bis_size={"{\"x\":457,\"y\":931,\"w\":17,\"h\":17,\"abs..."}
+                                                            >
+                                                            <path
+                                                              d="M15 5.764v15"
+-                                                             bis_size={"{\"x\":469,\"y\":933,\"w\":0,\"h\":14,\"abs_..."}
+                                                            >
+                                                            <path
+                                                              d="M9 3.236v15"
+-                                                             bis_size={"{\"x\":463,\"y\":931,\"w\":0,\"h\":14,\"abs_..."}
+                                                            >
+                                                      <h3
+                                                        className="mt-4 font-display text-lg font-semibold"
+-                                                       bis_size={"{\"x\":442,\"y\":980,\"w\":306,\"h\":28,\"abs_x\":..."}
+                                                      >
++                                                       {"Sorties & lieux"}
+                                                      <p
+                                                        className="mt-2 flex-1 text-sm leading-relaxed text-muted-fore..."
+-                                                       bis_size={"{\"x\":442,\"y\":1016,\"w\":306,\"h\":68,\"abs_x\"..."}
+                                                      >
++                                                       {"La sortie du 12 novembre au Centre d'Art La Fenêtre, les f..."}
+                                                      <span
+                                                        className="mt-4 flex items-center gap-1.5 text-sm font-semibol..."
+-                                                       bis_size={"{\"x\":442,\"y\":1100,\"w\":306,\"h\":20,\"abs_x\"..."}
+                                                      >
+                                                        <ArrowRight className="h-4 w-4 tr..." aria-hidden={true}>
+                                                          <svg
+                                                            ref={null}
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width={24}
+                                                            height={24}
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth={2}
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            className="lucide lucide-arrow-right h-4 w-4 transition-tr..."
+                                                            aria-hidden={true}
+-                                                           bis_size={"{\"x\":549,\"y\":1102,\"w\":15,\"h\":15,\"abs_..."}
+                                                          >
+                                                            <path
+                                                              d="M5 12h14"
+-                                                             bis_size={"{\"x\":552,\"y\":1110,\"w\":9,\"h\":0,\"abs_..."}
+                                                            >
+                                                            <path
+                                                              d="m12 5 7 7-7 7"
+-                                                             bis_size={"{\"x\":557,\"y\":1105,\"w\":4,\"h\":9,\"abs_..."}
+                                                            >
+                                                  <motion.button initial={{opacity:0,y:16}} whileInView={{opacity:1,y:0}} ...>
+                                                    <button
+                                                      onClick={function onClick}
+                                                      className="group flex flex-col rounded-3xl border border-brand-t..."
+                                                      style={{opacity:0,transform:"translateY..."}}
+                                                      ref={function useMotionRef.useCallback}
+-                                                     bis_size={"{\"x\":790,\"y\":890,\"w\":357,\"h\":254,\"abs_x\":2..."}
+                                                    >
+                                                      <span
+                                                        className="flex h-12 w-12 items-center justify-center rounded-..."
+-                                                       bis_size={"{\"x\":815,\"y\":916,\"w\":47,\"h\":47,\"abs_x\":2..."}
+                                                      >
+                                                        <Newspaper className="h-6 w-6 te..." aria-hidden={true}>
+                                                          <svg
+                                                            ref={null}
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width={24}
+                                                            height={24}
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth={2}
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            className="lucide lucide-newspaper h-6 w-6 text-brand-violet"
+                                                            aria-hidden={true}
+-                                                           bis_size={"{\"x\":827,\"y\":928,\"w\":23,\"h\":23,\"abs_x..."}
+                                                          >
+                                                            <path
+                                                              d="M15 18h-5"
+-                                                             bis_size={"{\"x\":837,\"y\":946,\"w\":4,\"h\":0,\"abs_x..."}
+                                                            >
+                                                            <path
+                                                              d="M18 14h-8"
+-                                                             bis_size={"{\"x\":837,\"y\":942,\"w\":7,\"h\":0,\"abs_x..."}
+                                                            >
+                                                            <path
+                                                              d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 ..."
+-                                                             bis_size={"{\"x\":829,\"y\":930,\"w\":19,\"h\":19,\"abs..."}
+                                                            >
+                                                            <rect
+                                                              width="8"
+                                                              height="4"
+                                                              x="10"
+                                                              y="6"
+                                                              rx="1"
+-                                                             bis_size={"{\"x\":837,\"y\":934,\"w\":7,\"h\":3,\"abs_x..."}
+                                                            >
+                                                      <h3
+                                                        className="mt-4 font-display text-lg font-semibold"
+-                                                       bis_size={"{\"x\":815,\"y\":980,\"w\":306,\"h\":28,\"abs_x\":..."}
+                                                      >
++                                                       Journal du groupe
+                                                      <p
+                                                        className="mt-2 flex-1 text-sm leading-relaxed text-muted-fore..."
+-                                                       bis_size={"{\"x\":815,\"y\":1016,\"w\":306,\"h\":68,\"abs_x\"..."}
+                                                      >
++                                                       Articles, récits, photos et capsules audio : la mémoire vivante...
+                                                      <span
+                                                        className="mt-4 flex items-center gap-1.5 text-sm font-semibol..."
+-                                                       bis_size={"{\"x\":815,\"y\":1100,\"w\":306,\"h\":20,\"abs_x\"..."}
+                                                      >
+                                                        <ArrowRight className="h-4 w-4 tr..." aria-hidden={true}>
+                                                          <svg
+                                                            ref={null}
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width={24}
+                                                            height={24}
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth={2}
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            className="lucide lucide-arrow-right h-4 w-4 transition-tr..."
+                                                            aria-hidden={true}
+-                                                           bis_size={"{\"x\":912,\"y\":1102,\"w\":15,\"h\":15,\"abs_..."}
+                                                          >
+                                                            <path
+                                                              d="M5 12h14"
+-                                                             bis_size={"{\"x\":916,\"y\":1110,\"w\":9,\"h\":0,\"abs_..."}
+                                                            >
+                                                            <path
+                                                              d="m12 5 7 7-7 7"
+-                                                             bis_size={"{\"x\":920,\"y\":1105,\"w\":4,\"h\":9,\"abs_..."}
+                                                            >
+                                                  <motion.button initial={{opacity:0,y:16}} whileInView={{opacity:1,y:0}} ...>
+                                                    <button
+                                                      onClick={function onClick}
+                                                      className="group flex flex-col rounded-3xl border border-brand-t..."
+                                                      style={{opacity:0,transform:"translateY..."}}
+                                                      ref={function useMotionRef.useCallback}
+-                                                     bis_size={"{\"x\":1164,\"y\":890,\"w\":357,\"h\":254,\"abs_x\":..."}
+                                                    >
+                                                      <span
+                                                        className="flex h-12 w-12 items-center justify-center rounded-..."
+-                                                       bis_size={"{\"x\":1189,\"y\":916,\"w\":47,\"h\":47,\"abs_x\":..."}
+                                                      >
+                                                        <Vote className="h-6 w-6 te..." aria-hidden={true}>
+                                                          <svg
+                                                            ref={null}
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width={24}
+                                                            height={24}
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth={2}
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            className="lucide lucide-vote h-6 w-6 text-brand-teal"
+                                                            aria-hidden={true}
+-                                                           bis_size={"{\"x\":1201,\"y\":928,\"w\":23,\"h\":23,\"abs_..."}
+                                                          >
+                                                            <path
+                                                              d="m9 12 2 2 4-4"
+-                                                             bis_size={"{\"x\":1210,\"y\":938,\"w\":5,\"h\":3,\"abs_..."}
+                                                            >
+                                                            <path
+                                                              d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"
+-                                                             bis_size={"{\"x\":1206,\"y\":933,\"w\":13,\"h\":13,\"ab..."}
+                                                            >
+                                                            <path
+                                                              d="M22 19H2"
+-                                                             bis_size={"{\"x\":1203,\"y\":947,\"w\":19,\"h\":0,\"abs..."}
+                                                            >
+                                                      <h3
+                                                        className="mt-4 font-display text-lg font-semibold"
+-                                                       bis_size={"{\"x\":1189,\"y\":980,\"w\":306,\"h\":28,\"abs_x\"..."}
+                                                      >
++                                                       Sondage participatif
+                                                      <p
+                                                        className="mt-2 flex-1 text-sm leading-relaxed text-muted-fore..."
+-                                                       bis_size={"{\"x\":1189,\"y\":1016,\"w\":306,\"h\":68,\"abs_x\..."}
+                                                      >
++                                                       Plusieurs choix possibles, résultats en direct : la prochaine s...
+                                                      <span
+                                                        className="mt-4 flex items-center gap-1.5 text-sm font-semibol..."
+-                                                       bis_size={"{\"x\":1189,\"y\":1100,\"w\":306,\"h\":20,\"abs_x\..."}
+                                                      >
+                                                        <ArrowRight className="h-4 w-4 tr..." aria-hidden={true}>
+                                                          <svg
+                                                            ref={null}
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width={24}
+                                                            height={24}
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth={2}
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            className="lucide lucide-arrow-right h-4 w-4 transition-tr..."
+                                                            aria-hidden={true}
+-                                                           bis_size={"{\"x\":1300,\"y\":1102,\"w\":15,\"h\":15,\"abs..."}
+                                                          >
+                                                            <path
+                                                              d="M5 12h14"
+-                                                             bis_size={"{\"x\":1303,\"y\":1110,\"w\":9,\"h\":0,\"abs..."}
+                                                            >
+                                                            <path
+                                                              d="m12 5 7 7-7 7"
+-                                                             bis_size={"{\"x\":1307,\"y\":1105,\"w\":4,\"h\":9,\"abs..."}
+                                                            >
+                                                  <motion.button initial={{opacity:0,y:16}} whileInView={{opacity:1,y:0}} ...>
+                                                    <button
+                                                      onClick={function onClick}
+                                                      className="group flex flex-col rounded-3xl border border-brand-t..."
+                                                      style={{opacity:0,transform:"translateY..."}}
+                                                      ref={function useMotionRef.useCallback}
+-                                                     bis_size={"{\"x\":417,\"y\":1161,\"w\":357,\"h\":231,\"abs_x\":..."}
+                                                    >
+                                                      <span
+                                                        className="flex h-12 w-12 items-center justify-center rounded-..."
+-                                                       bis_size={"{\"x\":442,\"y\":1186,\"w\":47,\"h\":47,\"abs_x\":..."}
+                                                      >
+                                                        <Images className="h-6 w-6 te..." aria-hidden={true}>
+                                                          <svg
+                                                            ref={null}
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width={24}
+                                                            height={24}
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth={2}
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            className="lucide lucide-images h-6 w-6 text-brand-orange"
+                                                            aria-hidden={true}
+-                                                           bis_size={"{\"x\":454,\"y\":1198,\"w\":23,\"h\":23,\"abs_..."}
+                                                          >
+                                                            <path
+                                                              d="M18 22H4a2 2 0 0 1-2-2V6"
+-                                                             bis_size={"{\"x\":456,\"y\":1204,\"w\":15,\"h\":15,\"ab..."}
+                                                            >
+                                                            <path
+                                                              d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18"
+-                                                             bis_size={"{\"x\":465,\"y\":1209,\"w\":10,\"h\":6,\"abs..."}
+                                                            >
+                                                            <circle
+                                                              cx="12"
+                                                              cy="8"
+                                                              r="2"
+-                                                             bis_size={"{\"x\":464,\"y\":1204,\"w\":3,\"h\":3,\"abs_..."}
+                                                            >
+                                                            <rect
+                                                              width="16"
+                                                              height="16"
+                                                              x="6"
+                                                              y="2"
+                                                              rx="2"
+-                                                             bis_size={"{\"x\":460,\"y\":1200,\"w\":15,\"h\":15,\"ab..."}
+                                                            >
+                                                      <h3
+                                                        className="mt-4 font-display text-lg font-semibold"
+-                                                       bis_size={"{\"x\":442,\"y\":1250,\"w\":306,\"h\":28,\"abs_x\"..."}
+                                                      >
++                                                       Galerie photo
+                                                      <p
+                                                        className="mt-2 flex-1 text-sm leading-relaxed text-muted-fore..."
+-                                                       bis_size={"{\"x\":442,\"y\":1286,\"w\":306,\"h\":45,\"abs_x\"..."}
+                                                      >
++                                                       Les photos et créations des sorties, en consultation libre pour...
+                                                      <span
+                                                        className="mt-4 flex items-center gap-1.5 text-sm font-semibol..."
+-                                                       bis_size={"{\"x\":442,\"y\":1348,\"w\":306,\"h\":20,\"abs_x\"..."}
+                                                      >
+                                                        <Lock className="h-3.5 w-3...." aria-hidden={true}>
+                                                          <svg
+                                                            ref={null}
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width={24}
+                                                            height={24}
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth={2}
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            className="lucide lucide-lock h-3.5 w-3.5 text-brand-orange"
+                                                            aria-hidden={true}
+-                                                           bis_size={"{\"x\":565,\"y\":1351,\"w\":13,\"h\":13,\"abs_..."}
+                                                          >
+                                                            <rect
+                                                              width="18"
+                                                              height="11"
+                                                              x="3"
+                                                              y="11"
+                                                              rx="2"
+                                                              ry="2"
+-                                                             bis_size={"{\"x\":566,\"y\":1357,\"w\":10,\"h\":6,\"abs..."}
+                                                            >
+                                                            <path
+                                                              d="M7 11V7a5 5 0 0 1 10 0v4"
+-                                                             bis_size={"{\"x\":569,\"y\":1352,\"w\":5,\"h\":5,\"abs_..."}
+                                                            >
+                                                        <ArrowRight className="h-4 w-4 tr..." aria-hidden={true}>
+                                                          <svg
+                                                            ref={null}
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width={24}
+                                                            height={24}
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth={2}
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            className="lucide lucide-arrow-right h-4 w-4 transition-tr..."
+                                                            aria-hidden={true}
+-                                                           bis_size={"{\"x\":585,\"y\":1350,\"w\":15,\"h\":15,\"abs_..."}
+                                                          >
+                                                            <path
+                                                              d="M5 12h14"
+-                                                             bis_size={"{\"x\":588,\"y\":1358,\"w\":9,\"h\":0,\"abs_..."}
+                                                            >
+                                                            <path
+                                                              d="m12 5 7 7-7 7"
+-                                                             bis_size={"{\"x\":593,\"y\":1353,\"w\":4,\"h\":9,\"abs_..."}
+                                                            >
+                                                  <motion.button initial={{opacity:0,y:16}} whileInView={{opacity:1,y:0}} ...>
+                                                    <button
+                                                      onClick={function onClick}
+                                                      className="group flex flex-col rounded-3xl border border-brand-t..."
+                                                      style={{opacity:0,transform:"translateY..."}}
+                                                      ref={function useMotionRef.useCallback}
+-                                                     bis_size={"{\"x\":790,\"y\":1161,\"w\":357,\"h\":231,\"abs_x\":..."}
+                                                    >
+                                                      <span
+                                                        className="flex h-12 w-12 items-center justify-center rounded-..."
+-                                                       bis_size={"{\"x\":815,\"y\":1186,\"w\":47,\"h\":47,\"abs_x\":..."}
+                                                      >
+                                                        <FolderOpen className="h-6 w-6 te..." aria-hidden={true}>
+                                                          <svg
+                                                            ref={null}
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width={24}
+                                                            height={24}
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth={2}
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            className="lucide lucide-folder-open h-6 w-6 text-brand-deep"
+                                                            aria-hidden={true}
+-                                                           bis_size={"{\"x\":827,\"y\":1198,\"w\":23,\"h\":23,\"abs_..."}
+                                                          >
+                                                            <path
+                                                              d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5..."
+-                                                             bis_size={"{\"x\":829,\"y\":1201,\"w\":19,\"h\":16,\"ab..."}
+                                                            >
+                                                      <h3
+                                                        className="mt-4 font-display text-lg font-semibold"
+-                                                       bis_size={"{\"x\":815,\"y\":1250,\"w\":306,\"h\":28,\"abs_x\"..."}
+                                                      >
++                                                       Drive partagé
+                                                      <p
+                                                        className="mt-2 flex-1 text-sm leading-relaxed text-muted-fore..."
+-                                                       bis_size={"{\"x\":815,\"y\":1286,\"w\":306,\"h\":45,\"abs_x\"..."}
+                                                      >
++                                                       {"L'espace de stockage commun : photos, vidéos, documents de..."}
+                                                      <span
+                                                        className="mt-4 flex items-center gap-1.5 text-sm font-semibol..."
+-                                                       bis_size={"{\"x\":815,\"y\":1348,\"w\":306,\"h\":20,\"abs_x\"..."}
+                                                      >
+                                                        <Lock className="h-3.5 w-3...." aria-hidden={true}>
+                                                          <svg
+                                                            ref={null}
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width={24}
+                                                            height={24}
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth={2}
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            className="lucide lucide-lock h-3.5 w-3.5 text-brand-orange"
+                                                            aria-hidden={true}
+-                                                           bis_size={"{\"x\":938,\"y\":1351,\"w\":13,\"h\":13,\"abs_..."}
+                                                          >
+                                                            <rect
+                                                              width="18"
+                                                              height="11"
+                                                              x="3"
+                                                              y="11"
+                                                              rx="2"
+                                                              ry="2"
+-                                                             bis_size={"{\"x\":940,\"y\":1357,\"w\":10,\"h\":6,\"abs..."}
+                                                            >
+                                                            <path
+                                                              d="M7 11V7a5 5 0 0 1 10 0v4"
+-                                                             bis_size={"{\"x\":942,\"y\":1352,\"w\":5,\"h\":5,\"abs_..."}
+                                                            >
+                                                        <ArrowRight className="h-4 w-4 tr..." aria-hidden={true}>
+                                                          <svg
+                                                            ref={null}
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width={24}
+                                                            height={24}
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth={2}
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            className="lucide lucide-arrow-right h-4 w-4 transition-tr..."
+                                                            aria-hidden={true}
+-                                                           bis_size={"{\"x\":958,\"y\":1350,\"w\":15,\"h\":15,\"abs_..."}
+                                                          >
+                                                            <path
+                                                              d="M5 12h14"
+-                                                             bis_size={"{\"x\":961,\"y\":1358,\"w\":9,\"h\":0,\"abs_..."}
+                                                            >
+                                                            <path
+                                                              d="m12 5 7 7-7 7"
+-                                                             bis_size={"{\"x\":966,\"y\":1353,\"w\":4,\"h\":9,\"abs_..."}
+                                                            >
+                                              <section
+                                                className="border-y border-brand-teal/10 bg-[#f9f6f0]"
+-                                               bis_size={"{\"x\":0,\"y\":1441,\"w\":1938,\"h\":620,\"abs_x\":1218,\"..."}
+                                              >
+                                                <div
+                                                  className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:..."
+-                                                 bis_size={"{\"x\":393,\"y\":1442,\"w\":1151,\"h\":617,\"abs_x\":161..."}
+                                                >
+                                                  <motion.div initial={{opacity:0,y:18}} whileInView={{opacity:1,y:0}} ...>
+                                                    <div
+                                                      style={{opacity:0,transform:"translateY..."}}
+                                                      ref={function useMotionRef.useCallback}
+-                                                     bis_size={"{\"x\":417,\"y\":1524,\"w\":532,\"h\":489,\"abs_x\":..."}
+                                                    >
+                                                      <h2
+                                                        className="font-display text-3xl font-bold tracking-tight sm:t..."
+-                                                       bis_size={"{\"x\":417,\"y\":1524,\"w\":532,\"h\":79,\"abs_x\"..."}
+                                                      >
++                                                       La culture comme chemin, la mobilité comme ouverture
+                                                      <p
+                                                        className="mt-4 leading-relaxed text-foreground/75"
+-                                                       bis_size={"{\"x\":417,\"y\":1620,\"w\":532,\"h\":103,\"abs_x\..."}
+                                                      >
++                                                       {"« Culture et mobilité » est un projet transversal qui réun..."}
+                                                      <p
+                                                        className="mt-3 leading-relaxed text-foreground/75"
+-                                                       bis_size={"{\"x\":417,\"y\":1736,\"w\":532,\"h\":77,\"abs_x\"..."}
+                                                      >
++                                                       {"L'objectif commun reste l'accès à la culture : explorer, p..."}
+                                                      <ul
+                                                        className="mt-6 space-y-3"
+-                                                       bis_size={"{\"x\":417,\"y\":1838,\"w\":532,\"h\":176,\"abs_x\..."}
+                                                      >
+                                                        <li
+                                                          className="flex items-start gap-3 rounded-2xl bg-white p-3.5..."
+-                                                         bis_size={"{\"x\":417,\"y\":1838,\"w\":532,\"h\":50,\"abs_x..."}
+                                                        >
+                                                          <Landmark className="mt-0.5 h-5..." aria-hidden={true}>
+                                                            <svg
+                                                              ref={null}
+                                                              xmlns="http://www.w3.org/2000/svg"
+                                                              width={24}
+                                                              height={24}
+                                                              viewBox="0 0 24 24"
+                                                              fill="none"
+                                                              stroke="currentColor"
+                                                              strokeWidth={2}
+                                                              strokeLinecap="round"
+                                                              strokeLinejoin="round"
+                                                              className="lucide lucide-landmark mt-0.5 h-5 w-5 shrink-..."
+                                                              aria-hidden={true}
+-                                                             bis_size={"{\"x\":431,\"y\":1854,\"w\":20,\"h\":20,\"ab..."}
+                                                            >
+                                                              <path
+                                                                d="M10 18v-7"
+-                                                               bis_size={"{\"x\":439,\"y\":1863,\"w\":0,\"h\":5,\"ab..."}
+                                                              >
+                                                              <path
+                                                                d="M11.12 2.198a2 2 0 0 1 1.76.006l7.866 3.847c.476.23..."
+-                                                               bis_size={"{\"x\":433,\"y\":1856,\"w\":15,\"h\":4,\"a..."}
+                                                              >
+                                                              <path
+                                                                d="M14 18v-7"
+-                                                               bis_size={"{\"x\":443,\"y\":1863,\"w\":0,\"h\":5,\"ab..."}
+                                                              >
+                                                              <path
+                                                                d="M18 18v-7"
+-                                                               bis_size={"{\"x\":446,\"y\":1863,\"w\":0,\"h\":5,\"ab..."}
+                                                              >
+                                                              <path
+                                                                d="M3 22h18"
+-                                                               bis_size={"{\"x\":433,\"y\":1872,\"w\":15,\"h\":0,\"a..."}
+                                                              >
+                                                              <path
+                                                                d="M6 18v-7"
+-                                                               bis_size={"{\"x\":436,\"y\":1863,\"w\":0,\"h\":5,\"ab..."}
+                                                              >
+                                                          <span
+                                                            className="text-sm leading-relaxed"
+-                                                           bis_size={"{\"x\":463,\"y\":1852,\"w\":352,\"h\":22,\"abs..."}
+                                                          >
++                                                           Sorties culturelles : musées, expos, théâtre, cinéma…
+                                                        <li
+                                                          className="flex items-start gap-3 rounded-2xl bg-white p-3.5..."
+-                                                         bis_size={"{\"x\":417,\"y\":1901,\"w\":532,\"h\":50,\"abs_x..."}
+                                                        >
+                                                          <Bus className="mt-0.5 h-5..." aria-hidden={true}>
+                                                            <svg
+                                                              ref={null}
+                                                              xmlns="http://www.w3.org/2000/svg"
+                                                              width={24}
+                                                              height={24}
+                                                              viewBox="0 0 24 24"
+                                                              fill="none"
+                                                              stroke="currentColor"
+                                                              strokeWidth={2}
+                                                              strokeLinecap="round"
+                                                              strokeLinejoin="round"
+                                                              className="lucide lucide-bus mt-0.5 h-5 w-5 shrink-0 tex..."
+                                                              aria-hidden={true}
+-                                                             bis_size={"{\"x\":431,\"y\":1917,\"w\":20,\"h\":20,\"ab..."}
+                                                            >
+                                                              <path
+                                                                d="M8 6v6"
+-                                                               bis_size={"{\"x\":438,\"y\":1922,\"w\":0,\"h\":5,\"ab..."}
+                                                              >
+                                                              <path
+                                                                d="M15 6v6"
+-                                                               bis_size={"{\"x\":443,\"y\":1922,\"w\":0,\"h\":5,\"ab..."}
+                                                              >
+                                                              <path
+                                                                d="M2 12h19.6"
+-                                                               bis_size={"{\"x\":433,\"y\":1927,\"w\":16,\"h\":0,\"a..."}
+                                                              >
+                                                              <path
+                                                                d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-...."
+-                                                               bis_size={"{\"x\":433,\"y\":1922,\"w\":16,\"h\":10,\"..."}
+                                                              >
+                                                              <circle
+                                                                cx="7"
+                                                                cy="18"
+                                                                r="2"
+-                                                               bis_size={"{\"x\":435,\"y\":1930,\"w\":3,\"h\":3,\"ab..."}
+                                                              >
+                                                              <path
+                                                                d="M9 18h5"
+-                                                               bis_size={"{\"x\":438,\"y\":1932,\"w\":4,\"h\":0,\"ab..."}
+                                                              >
+                                                              <circle
+                                                                cx="16"
+                                                                cy="18"
+                                                                r="2"
+-                                                               bis_size={"{\"x\":443,\"y\":1930,\"w\":3,\"h\":3,\"ab..."}
+                                                              >
+                                                          <span
+                                                            className="text-sm leading-relaxed"
+-                                                           bis_size={"{\"x\":463,\"y\":1915,\"w\":402,\"h\":22,\"abs..."}
+                                                          >
++                                                           Mobilité accompagnée : se déplacer ensemble, en confiance
+                                                        <li
+                                                          className="flex items-start gap-3 rounded-2xl bg-white p-3.5..."
+-                                                         bis_size={"{\"x\":417,\"y\":1964,\"w\":532,\"h\":50,\"abs_x..."}
+                                                        >
+                                                          <Users className="mt-0.5 h-5..." aria-hidden={true}>
+                                                            <svg
+                                                              ref={null}
+                                                              xmlns="http://www.w3.org/2000/svg"
+                                                              width={24}
+                                                              height={24}
+                                                              viewBox="0 0 24 24"
+                                                              fill="none"
+                                                              stroke="currentColor"
+                                                              strokeWidth={2}
+                                                              strokeLinecap="round"
+                                                              strokeLinejoin="round"
+                                                              className="lucide lucide-users mt-0.5 h-5 w-5 shrink-0 t..."
+                                                              aria-hidden={true}
+-                                                             bis_size={"{\"x\":431,\"y\":1979,\"w\":20,\"h\":20,\"ab..."}
+                                                            >
+                                                              <path
+                                                                d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+-                                                               bis_size={"{\"x\":433,\"y\":1992,\"w\":11,\"h\":5,\"a..."}
+                                                              >
+                                                              <path
+                                                                d="M16 3.128a4 4 0 0 1 0 7.744"
+-                                                               bis_size={"{\"x\":444,\"y\":1982,\"w\":2,\"h\":6,\"ab..."}
+                                                              >
+                                                              <path
+                                                                d="M22 21v-2a4 4 0 0 0-3-3.87"
+-                                                               bis_size={"{\"x\":447,\"y\":1992,\"w\":2,\"h\":4,\"ab..."}
+                                                              >
+                                                              <circle
+                                                                cx="9"
+                                                                cy="7"
+                                                                r="4"
+-                                                               bis_size={"{\"x\":435,\"y\":1982,\"w\":6,\"h\":6,\"ab..."}
+                                                              >
+                                                          <span
+                                                            className="text-sm leading-relaxed"
+-                                                           bis_size={"{\"x\":463,\"y\":1978,\"w\":312,\"h\":22,\"abs..."}
+                                                          >
++                                                           Groupe : entraide, écoute et place pour chacun
+                                                  <motion.div initial={{opacity:0,x:24}} whileInView={{opacity:1,x:0}} ...>
+                                                    <div
+                                                      className="relative"
+                                                      style={{opacity:0,transform:"translateX..."}}
+                                                      ref={function useMotionRef.useCallback}
+-                                                     bis_size={"{\"x\":1013,\"y\":1598,\"w\":532,\"h\":307,\"abs_x\"..."}
+                                                    >
+                                                      <div
+                                                        className="overflow-hidden rounded-[2rem] border-4 border-whit..."
+-                                                       bis_size={"{\"x\":1013,\"y\":1598,\"w\":532,\"h\":307,\"abs_x..."}
+                                                      >
+                                                        <img
+                                                          alt="Illustration : un groupe se promène entre un musée, un ..."
+                                                          fetchPriority={undefined}
+                                                          loading="lazy"
+                                                          width={1344}
+                                                          height={768}
+                                                          decoding="async"
+                                                          data-nimg="1"
+                                                          className="h-auto w-full"
+                                                          style={{color:"transparent"}}
+                                                          sizes={undefined}
+                                                          srcSet={"/_next/image?url=%2Fimages%2Fhero-wide.png&w=1920&..."}
+                                                          src={"/_next/image?url=%2Fimages%2Fhero-wide.png&w=3840&q=75"}
+                                                          ref={function}
+                                                          onLoad={function onLoad}
+                                                          onError={function onError}
+-                                                         bis_size={"{\"x\":1017,\"y\":1601,\"w\":524,\"h\":299,\"abs..."}
+                                                        >
+                                                      <div
+                                                        className="absolute -bottom-5 left-6 rounded-2xl bg-white px-4..."
+-                                                       bis_size={"{\"x\":1037,\"y\":1885,\"w\":314,\"h\":40,\"abs_x\..."}
+                                                      >
+                                                        <p
+                                                          className="flex items-center gap-2 text-sm font-semibold tex..."
+-                                                         bis_size={"{\"x\":1053,\"y\":1895,\"w\":283,\"h\":20,\"abs_..."}
+                                                        >
+                                                          <Heart className="h-4 w-4 fi..." aria-hidden={true}>
+                                                            <svg
+                                                              ref={null}
+                                                              xmlns="http://www.w3.org/2000/svg"
+                                                              width={24}
+                                                              height={24}
+                                                              viewBox="0 0 24 24"
+                                                              fill="none"
+                                                              stroke="currentColor"
+                                                              strokeWidth={2}
+                                                              strokeLinecap="round"
+                                                              strokeLinejoin="round"
+                                                              className="lucide lucide-heart h-4 w-4 fill-brand-orange..."
+                                                              aria-hidden={true}
+-                                                             bis_size={"{\"x\":1053,\"y\":1897,\"w\":15,\"h\":15,\"a..."}
+                                                            >
+                                                              <path
+                                                                d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c..."
+-                                                               bis_size={"{\"x\":1054,\"y\":1899,\"w\":13,\"h\":11,\..."}
+                                                              >
+                                                          ...
+                                              <section
+                                                className="mx-auto max-w-6xl px-4 py-16 sm:px-6"
+-                                               bis_size={"{\"x\":393,\"y\":2061,\"w\":1151,\"h\":579,\"abs_x\":1611,..."}
+                                              >
+                                                <motion.div initial={{opacity:0,y:18}} whileInView={{opacity:1,y:0}} ...>
+                                                  <div
+                                                    className="mx-auto max-w-2xl text-center"
+                                                    style={{opacity:0,transform:"translateY..."}}
+                                                    ref={function useMotionRef.useCallback}
+-                                                   bis_size={"{\"x\":633,\"y\":2143,\"w\":671,\"h\":99,\"abs_x\":185..."}
+                                                  >
+                                                    <h2
+                                                      className="font-display text-3xl font-bold tracking-tight sm:tex..."
+-                                                     bis_size={"{\"x\":633,\"y\":2143,\"w\":671,\"h\":39,\"abs_x\":1..."}
+                                                    >
++                                                     Comment participer ?
+                                                    <p
+                                                      className="mt-3 text-foreground/70"
+-                                                     bis_size={"{\"x\":633,\"y\":2195,\"w\":671,\"h\":47,\"abs_x\":1..."}
+                                                    >
++                                                     {"Quatre petits pas pour rejoindre l'aventure — et aucune comp..."}
+                                                <ol
+                                                  className="mt-10 grid gap-4 md:grid-cols-4"
+-                                                 bis_size={"{\"x\":417,\"y\":2265,\"w\":1104,\"h\":184,\"abs_x\":163..."}
+                                                >
+                                                  <motion.li initial={{opacity:0,y:16}} whileInView={{opacity:1,y:0}} ...>
+                                                    <li
+                                                      className="relative rounded-3xl border border-brand-teal/10 bg-w..."
+                                                      style={{opacity:0,transform:"translateY..."}}
+                                                      ref={function useMotionRef.useCallback}
+-                                                     bis_size={"{\"x\":417,\"y\":2281,\"w\":264,\"h\":184,\"abs_x\":..."}
+                                                    >
+                                                      <span
+                                                        aria-hidden={true}
+                                                        className="absolute -top-3 left-5 flex h-8 w-8 items-center ju..."
+-                                                       bis_size={"{\"x\":438,\"y\":2271,\"w\":31,\"h\":31,\"abs_x\":..."}
+                                                      >
++                                                       1
+                                                      <Users className="h-6 w-6 te..." aria-hidden={true}>
+                                                        <svg
+                                                          ref={null}
+                                                          xmlns="http://www.w3.org/2000/svg"
+                                                          width={24}
+                                                          height={24}
+                                                          viewBox="0 0 24 24"
+                                                          fill="none"
+                                                          stroke="currentColor"
+                                                          strokeWidth={2}
+                                                          strokeLinecap="round"
+                                                          strokeLinejoin="round"
+                                                          className="lucide lucide-users h-6 w-6 text-brand-teal"
+                                                          aria-hidden={true}
+-                                                         bis_size={"{\"x\":442,\"y\":2307,\"w\":23,\"h\":23,\"abs_x\..."}
+                                                        >
+                                                          <path
+                                                            d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+-                                                           bis_size={"{\"x\":444,\"y\":2322,\"w\":13,\"h\":5,\"abs_x..."}
+                                                          >
+                                                          <path
+                                                            d="M16 3.128a4 4 0 0 1 0 7.744"
+-                                                           bis_size={"{\"x\":458,\"y\":2310,\"w\":2,\"h\":7,\"abs_x\..."}
+                                                          >
+                                                          <path
+                                                            d="M22 21v-2a4 4 0 0 0-3-3.87"
+-                                                           bis_size={"{\"x\":461,\"y\":2322,\"w\":2,\"h\":5,\"abs_x\..."}
+                                                          >
+                                                          <circle
+                                                            cx="9"
+                                                            cy="7"
+                                                            r="4"
+-                                                           bis_size={"{\"x\":447,\"y\":2310,\"w\":7,\"h\":7,\"abs_x\..."}
+                                                          >
+                                                      <h3
+                                                        className="mt-3 font-display text-base font-semibold"
+-                                                       bis_size={"{\"x\":442,\"y\":2343,\"w\":213,\"h\":23,\"abs_x\"..."}
+                                                      >
++                                                       Créez votre compte
+                                                      <p
+                                                        className="mt-1.5 text-sm leading-relaxed text-muted-foreground"
+-                                                       bis_size={"{\"x\":442,\"y\":2373,\"w\":213,\"h\":45,\"abs_x\"..."}
+                                                      >
++                                                       {"Avec le code d'invitation du groupe, en deux minutes."}
+                                                  <motion.li initial={{opacity:0,y:16}} whileInView={{opacity:1,y:0}} ...>
+                                                    <li
+                                                      className="relative rounded-3xl border border-brand-teal/10 bg-w..."
+                                                      style={{opacity:0,transform:"translateY..."}}
+                                                      ref={function useMotionRef.useCallback}
+-                                                     bis_size={"{\"x\":697,\"y\":2281,\"w\":264,\"h\":184,\"abs_x\":..."}
+                                                    >
+                                                      <span
+                                                        aria-hidden={true}
+                                                        className="absolute -top-3 left-5 flex h-8 w-8 items-center ju..."
+-                                                       bis_size={"{\"x\":718,\"y\":2271,\"w\":31,\"h\":31,\"abs_x\":..."}
+                                                      >
++                                                       2
+                                                      <Camera className="h-6 w-6 te..." aria-hidden={true}>
+                                                        <svg
+                                                          ref={null}
+                                                          xmlns="http://www.w3.org/2000/svg"
+                                                          width={24}
+                                                          height={24}
+                                                          viewBox="0 0 24 24"
+                                                          fill="none"
+                                                          stroke="currentColor"
+                                                          strokeWidth={2}
+                                                          strokeLinecap="round"
+                                                          strokeLinejoin="round"
+                                                          className="lucide lucide-camera h-6 w-6 text-brand-teal"
+                                                          aria-hidden={true}
+-                                                         bis_size={"{\"x\":722,\"y\":2307,\"w\":23,\"h\":23,\"abs_x\..."}
+                                                        >
+                                                          <path
+                                                            d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0..."
+-                                                           bis_size={"{\"x\":724,\"y\":2311,\"w\":19,\"h\":15,\"abs_..."}
+                                                          >
+                                                          <circle
+                                                            cx="12"
+                                                            cy="13"
+                                                            r="3"
+-                                                           bis_size={"{\"x\":731,\"y\":2317,\"w\":5,\"h\":5,\"abs_x\..."}
+                                                          >
+                                                      <h3
+                                                        className="mt-3 font-display text-base font-semibold"
+-                                                       bis_size={"{\"x\":722,\"y\":2343,\"w\":213,\"h\":23,\"abs_x\"..."}
+                                                      >
++                                                       Partagez vos photos
+                                                      <p
+                                                        className="mt-1.5 text-sm leading-relaxed text-muted-foreground"
+-                                                       bis_size={"{\"x\":722,\"y\":2373,\"w\":213,\"h\":45,\"abs_x\"..."}
+                                                      >
++                                                       {"Déposez-les dans le drive : la galerie s'illumine toute seule."}
+                                                  <motion.li initial={{opacity:0,y:16}} whileInView={{opacity:1,y:0}} ...>
+                                                    <li
+                                                      className="relative rounded-3xl border border-brand-teal/10 bg-w..."
+                                                      style={{opacity:0,transform:"translateY..."}}
+                                                      ref={function useMotionRef.useCallback}
+-                                                     bis_size={"{\"x\":977,\"y\":2281,\"w\":264,\"h\":184,\"abs_x\":..."}
+                                                    >
+                                                      <span
+                                                        aria-hidden={true}
+                                                        className="absolute -top-3 left-5 flex h-8 w-8 items-center ju..."
+-                                                       bis_size={"{\"x\":998,\"y\":2271,\"w\":31,\"h\":31,\"abs_x\":..."}
+                                                      >
++                                                       3
+                                                      <Vote className="h-6 w-6 te..." aria-hidden={true}>
+                                                        <svg
+                                                          ref={null}
+                                                          xmlns="http://www.w3.org/2000/svg"
+                                                          width={24}
+                                                          height={24}
+                                                          viewBox="0 0 24 24"
+                                                          fill="none"
+                                                          stroke="currentColor"
+                                                          strokeWidth={2}
+                                                          strokeLinecap="round"
+                                                          strokeLinejoin="round"
+                                                          className="lucide lucide-vote h-6 w-6 text-brand-teal"
+                                                          aria-hidden={true}
+-                                                         bis_size={"{\"x\":1002,\"y\":2307,\"w\":23,\"h\":23,\"abs_x..."}
+                                                        >
+                                                          <path
+                                                            d="m9 12 2 2 4-4"
+-                                                           bis_size={"{\"x\":1011,\"y\":2317,\"w\":5,\"h\":3,\"abs_x..."}
+                                                          >
+                                                          <path
+                                                            d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"
+-                                                           bis_size={"{\"x\":1007,\"y\":2312,\"w\":13,\"h\":13,\"abs..."}
+                                                          >
+                                                          <path
+                                                            d="M22 19H2"
+-                                                           bis_size={"{\"x\":1004,\"y\":2326,\"w\":19,\"h\":0,\"abs_..."}
+                                                          >
+                                                      <h3
+                                                        className="mt-3 font-display text-base font-semibold"
+-                                                       bis_size={"{\"x\":1002,\"y\":2343,\"w\":213,\"h\":23,\"abs_x\..."}
+                                                      >
++                                                       Donnez votre avis
+                                                      <p
+                                                        className="mt-1.5 text-sm leading-relaxed text-muted-foreground"
+-                                                       bis_size={"{\"x\":1002,\"y\":2373,\"w\":213,\"h\":45,\"abs_x\..."}
+                                                      >
++                                                       Votez pour les activités qui vous tentent le plus.
+                                                  <motion.li initial={{opacity:0,y:16}} whileInView={{opacity:1,y:0}} ...>
+                                                    <li
+                                                      className="relative rounded-3xl border border-brand-teal/10 bg-w..."
+                                                      style={{opacity:0,transform:"translateY..."}}
+                                                      ref={function useMotionRef.useCallback}
+-                                                     bis_size={"{\"x\":1257,\"y\":2281,\"w\":264,\"h\":184,\"abs_x\"..."}
+                                                    >
+                                                      <span
+                                                        aria-hidden={true}
+                                                        className="absolute -top-3 left-5 flex h-8 w-8 items-center ju..."
+-                                                       bis_size={"{\"x\":1278,\"y\":2271,\"w\":31,\"h\":31,\"abs_x\"..."}
+                                                      >
++                                                       4
+                                                      <Mic className="h-6 w-6 te..." aria-hidden={true}>
+                                                        <svg
+                                                          ref={null}
+                                                          xmlns="http://www.w3.org/2000/svg"
+                                                          width={24}
+                                                          height={24}
+                                                          viewBox="0 0 24 24"
+                                                          fill="none"
+                                                          stroke="currentColor"
+                                                          strokeWidth={2}
+                                                          strokeLinecap="round"
+                                                          strokeLinejoin="round"
+                                                          className="lucide lucide-mic h-6 w-6 text-brand-teal"
+                                                          aria-hidden={true}
+-                                                         bis_size={"{\"x\":1282,\"y\":2307,\"w\":23,\"h\":23,\"abs_x..."}
+                                                        >
+                                                          <path
+                                                            d="M12 19v3"
+-                                                           bis_size={"{\"x\":1294,\"y\":2326,\"w\":0,\"h\":2,\"abs_x..."}
+                                                          >
+                                                          <path
+                                                            d="M19 10v2a7 7 0 0 1-14 0v-2"
+-                                                           bis_size={"{\"x\":1287,\"y\":2317,\"w\":13,\"h\":8,\"abs_..."}
+                                                          >
+                                                          <rect
+                                                            x="9"
+                                                            y="2"
+                                                            width="6"
+                                                            height="13"
+                                                            rx="3"
+-                                                           bis_size={"{\"x\":1291,\"y\":2309,\"w\":5,\"h\":12,\"abs_..."}
+                                                          >
+                                                      <h3
+                                                        className="mt-3 font-display text-base font-semibold"
+-                                                       bis_size={"{\"x\":1282,\"y\":2343,\"w\":213,\"h\":23,\"abs_x\..."}
+                                                      >
++                                                       Écrivez ou enregistrez
+                                                      <p
+                                                        className="mt-1.5 text-sm leading-relaxed text-muted-foreground"
+-                                                       bis_size={"{\"x\":1282,\"y\":2373,\"w\":213,\"h\":68,\"abs_x\..."}
+                                                      >
++                                                       Un récit, une photo commentée, une capsule audio : comme vous v...
+                                                <div
+                                                  className="mt-8 flex flex-col items-center gap-3 rounded-3xl border ..."
+-                                                 bis_size={"{\"x\":417,\"y\":2482,\"w\":1104,\"h\":94,\"abs_x\":1635..."}
+                                                >
+                                                  <p
+                                                    className="text-sm text-foreground/80"
+-                                                   bis_size={"{\"x\":442,\"y\":2509,\"w\":861,\"h\":40,\"abs_x\":166..."}
+                                                  >
+                                                    <strong
+                                                      className="font-display"
+-                                                     bis_size={"{\"x\":442,\"y\":2511,\"w\":125,\"h\":17,\"abs_x\":1..."}
+                                                    >
++                                                     Respect de chacun :
+                                                    ...
+                                                  <Button className="h-11 shrin..." onClick={function onClick}>
+                                                    <button
+                                                      data-slot="button"
+                                                      className={"inline-flex items-center justify-center gap-2 white..."}
+                                                      onClick={function onClick}
+-                                                     bis_size={"{\"x\":1315,\"y\":2507,\"w\":180,\"h\":43,\"abs_x\":..."}
+                                                    >
+                                                      <ArrowRight className="ml-2 h-4 w-4" aria-hidden={true}>
+                                                        <svg
+                                                          ref={null}
+                                                          xmlns="http://www.w3.org/2000/svg"
+                                                          width={24}
+                                                          height={24}
+                                                          viewBox="0 0 24 24"
+                                                          fill="none"
+                                                          stroke="currentColor"
+                                                          strokeWidth={2}
+                                                          strokeLinecap="round"
+                                                          strokeLinejoin="round"
+                                                          className="lucide lucide-arrow-right ml-2 h-4 w-4"
+                                                          aria-hidden={true}
+-                                                         bis_size={"{\"x\":1468,\"y\":2521,\"w\":15,\"h\":15,\"abs_x..."}
+                                                        >
+                                                          <path
+                                                            d="M5 12h14"
+-                                                           bis_size={"{\"x\":1471,\"y\":2529,\"w\":9,\"h\":0,\"abs_x..."}
+                                                          >
+                                                          <path
+                                                            d="m12 5 7 7-7 7"
+-                                                           bis_size={"{\"x\":1476,\"y\":2525,\"w\":4,\"h\":9,\"abs_x..."}
+                                                          >
+                                              <section
+                                                className="mx-auto max-w-6xl px-4 pb-16 sm:px-6"
+-                                               bis_size={"{\"x\":393,\"y\":2641,\"w\":1151,\"h\":417,\"abs_x\":1611,..."}
+                                              >
+                                                <motion.div initial={{opacity:0,y:18}} whileInView={{opacity:1,y:0}} ...>
+                                                  <div
+                                                    className="overflow-hidden rounded-[2rem] bg-teal-violet text-whit..."
+                                                    style={{opacity:0,transform:"translateY..."}}
+                                                    ref={function useMotionRef.useCallback}
+-                                                   bis_size={"{\"x\":417,\"y\":2659,\"w\":1104,\"h\":353,\"abs_x\":1..."}
+                                                  >
+                                                    <div
+                                                      className="grid items-center md:grid-cols-5"
+-                                                     bis_size={"{\"x\":417,\"y\":2659,\"w\":1104,\"h\":353,\"abs_x\"..."}
+                                                    >
+                                                      <div
+                                                        className="p-8 sm:p-10 md:col-span-3"
+-                                                       bis_size={"{\"x\":417,\"y\":2659,\"w\":662,\"h\":353,\"abs_x\..."}
+                                                      >
+                                                        <Badge className="rounded-fu...">
+                                                          <span
+                                                            data-slot="badge"
+                                                            className={"inline-flex items-center justify-center borde..."}
+-                                                           bis_size={"{\"x\":457,\"y\":2699,\"w\":295,\"h\":26,\"abs..."}
+                                                          >
+                                                            <CalendarDays className="mr-1.5 h-3..." aria-hidden={true}>
+                                                              <svg
+                                                                ref={null}
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                width={24}
+                                                                height={24}
+                                                                viewBox="0 0 24 24"
+                                                                fill="none"
+                                                                stroke="currentColor"
+                                                                strokeWidth={2}
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                className="lucide lucide-calendar-days mr-1.5 h-3.5 w-3.5"
+                                                                aria-hidden={true}
+-                                                               bis_size={"{\"x\":470,\"y\":2706,\"w\":11,\"h\":11,\"..."}
+                                                              >
+                                                                <path
+                                                                  d="M8 2v4"
+-                                                                 bis_size={"{\"x\":474,\"y\":2707,\"w\":0,\"h\":1,\"..."}
+                                                                >
+                                                                <path
+                                                                  d="M16 2v4"
+-                                                                 bis_size={"{\"x\":478,\"y\":2707,\"w\":0,\"h\":1,\"..."}
+                                                                >
+                                                                <rect
+                                                                  width="18"
+                                                                  height="18"
+                                                                  x="3"
+                                                                  y="4"
+                                                                  rx="2"
+-                                                                 bis_size={"{\"x\":472,\"y\":2708,\"w\":8,\"h\":8,\"..."}
+                                                                >
+                                                                <path
+                                                                  d="M3 10h18"
+-                                                                 bis_size={"{\"x\":472,\"y\":2711,\"w\":8,\"h\":0,\"..."}
+                                                                >
+                                                                <path
+                                                                  d="M8 14h.01"
+-                                                                 bis_size={"{\"x\":474,\"y\":2713,\"w\":0,\"h\":0,\"..."}
+                                                                >
+                                                                <path
+                                                                  d="M12 14h.01"
+-                                                                 bis_size={"{\"x\":476,\"y\":2713,\"w\":0,\"h\":0,\"..."}
+                                                                >
+                                                                <path
+                                                                  d="M16 14h.01"
+-                                                                 bis_size={"{\"x\":478,\"y\":2713,\"w\":0,\"h\":0,\"..."}
+                                                                >
+                                                                <path
+                                                                  d="M8 18h.01"
+-                                                                 bis_size={"{\"x\":474,\"y\":2715,\"w\":0,\"h\":0,\"..."}
+                                                                >
+                                                                <path
+                                                                  d="M12 18h.01"
+-                                                                 bis_size={"{\"x\":476,\"y\":2715,\"w\":0,\"h\":0,\"..."}
+                                                                >
+                                                                <path
+                                                                  d="M16 18h.01"
+-                                                                 bis_size={"{\"x\":478,\"y\":2715,\"w\":0,\"h\":0,\"..."}
+                                                                >
+                                                            ...
+                                                        <h2
+                                                          className="mt-4 font-display text-2xl font-bold leading-snug..."
+-                                                         bis_size={"{\"x\":457,\"y\":2741,\"w\":582,\"h\":82,\"abs_x..."}
+                                                        >
+                                                        <p
+                                                          className="mt-2 text-sm leading-relaxed text-white/85"
+-                                                         bis_size={"{\"x\":457,\"y\":2831,\"w\":582,\"h\":68,\"abs_x..."}
+                                                        >
+                                                        <div
+                                                          className="mt-6 flex flex-wrap gap-3"
+-                                                         bis_size={"{\"x\":457,\"y\":2924,\"w\":582,\"h\":47,\"abs_x..."}
+                                                        >
+                                                          <Button size="lg" className="h-12 round..." ...>
+                                                            <button
+                                                              data-slot="button"
+                                                              className={"inline-flex items-center justify-center gap..."}
+                                                              onClick={function onClick}
+-                                                             bis_size={"{\"x\":457,\"y\":2924,\"w\":195,\"h\":47,\"a..."}
+                                                            >
+                                                              <Map className="mr-2 h-5 w-5" aria-hidden={true}>
+                                                                <svg
+                                                                  ref={null}
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={24}
+                                                                  height={24}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={2}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-map mr-2 h-5 w-5"
+                                                                  aria-hidden={true}
+-                                                                 bis_size={"{\"x\":473,\"y\":2940,\"w\":15,\"h\":15,..."}
+                                                                >
+                                                                  <path
+                                                                    d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 ..."
+-                                                                   bis_size={"{\"x\":475,\"y\":2942,\"w\":11,\"h\":1..."}
+                                                                  >
+                                                                  <path
+                                                                    d="M15 5.764v15"
+-                                                                   bis_size={"{\"x\":483,\"y\":2944,\"w\":0,\"h\":9,..."}
+                                                                  >
+                                                                  <path
+                                                                    d="M9 3.236v15"
+-                                                                   bis_size={"{\"x\":479,\"y\":2942,\"w\":0,\"h\":9,..."}
+                                                                  >
+                                                              ...
+                                                          <Button size="lg" variant="outline" className="h-12 round..." ...>
+                                                            <button
+                                                              data-slot="button"
+                                                              className={"inline-flex items-center justify-center gap..."}
+                                                              onClick={function onClick}
+-                                                             bis_size={"{\"x\":664,\"y\":2924,\"w\":178,\"h\":47,\"a..."}
+                                                            >
+                                                              <Vote className="mr-2 h-5 w-5" aria-hidden={true}>
+                                                                <svg
+                                                                  ref={null}
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={24}
+                                                                  height={24}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={2}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-vote mr-2 h-5 w-5"
+                                                                  aria-hidden={true}
+-                                                                 bis_size={"{\"x\":681,\"y\":2940,\"w\":15,\"h\":15,..."}
+                                                                >
+                                                                  <path
+                                                                    d="m9 12 2 2 4-4"
+-                                                                   bis_size={"{\"x\":687,\"y\":2946,\"w\":3,\"h\":2,..."}
+                                                                  >
+                                                                  <path
+                                                                    d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"
+-                                                                   bis_size={"{\"x\":685,\"y\":2943,\"w\":9,\"h\":9,..."}
+                                                                  >
+                                                                  <path
+                                                                    d="M22 19H2"
+-                                                                   bis_size={"{\"x\":683,\"y\":2952,\"w\":13,\"h\":0..."}
+                                                                  >
+                                                              ...
+                                                      <div
+                                                        className="relative min-h-44 md:col-span-2"
+-                                                       bis_size={"{\"x\":1079,\"y\":2709,\"w\":441,\"h\":252,\"abs_x..."}
+                                                      >
+                                                        <img
+                                                          alt={"Illustration du centre d'art La Fenêtre, face à l'Opé..."}
+                                                          fetchPriority={undefined}
+                                                          loading="lazy"
+                                                          width={1344}
+                                                          height={768}
+                                                          decoding="async"
+                                                          data-nimg="1"
+                                                          className="h-full w-full object-cover"
+                                                          style={{color:"transparent"}}
+                                                          sizes={undefined}
+                                                          srcSet={"/_next/image?url=%2Fimages%2Fla-fenetre.png&w=1920..."}
+                                                          src={"/_next/image?url=%2Fimages%2Fla-fenetre.png&w=3840&q=75"}
+                                                          ref={function}
+                                                          onLoad={function onLoad}
+                                                          onError={function onError}
+-                                                         bis_size={"{\"x\":1079,\"y\":2709,\"w\":441,\"h\":252,\"abs..."}
+                                                        >
+                                  <Footer navigate={function useHashRoute.useCallback[navigate]}>
+                                    <footer
+                                      className="mt-auto border-t border-brand-teal/10 bg-[#f6f1e9]"
+-                                     bis_size={"{\"x\":0,\"y\":3048,\"w\":1938,\"h\":448,\"abs_x\":1218,\"abs_y\":3162}"}
+                                    >
+                                      <div
+                                        className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-3"
+-                                       bis_size={"{\"x\":393,\"y\":3049,\"w\":1151,\"h\":389,\"abs_x\":1611,\"abs_y\..."}
+                                      >
+                                        <div
+-                                         bis_size={"{\"x\":417,\"y\":3097,\"w\":341,\"h\":293,\"abs_x\":1635,\"abs_y..."}
+                                        >
+                                          <div
+                                            className="flex items-center gap-3"
+-                                           bis_size={"{\"x\":417,\"y\":3097,\"w\":341,\"h\":47,\"abs_x\":1635,\"abs_..."}
+                                          >
+                                            <img
+                                              alt="Logo Cultures et Mobilités"
+                                              fetchPriority={undefined}
+                                              loading="lazy"
+                                              width={48}
+                                              height={48}
+                                              decoding="async"
+                                              data-nimg="1"
+                                              className="h-12 w-12"
+                                              style={{color:"transparent"}}
+                                              sizes={undefined}
+                                              srcSet={"/_next/image?url=%2Fimages%2Flogo-badge.png&w=48&q=75 1x, /_ne..."}
+                                              src={"/_next/image?url=%2Fimages%2Flogo-badge.png&w=96&q=75"}
+                                              ref={function}
+                                              onLoad={function onLoad}
+                                              onError={function onError}
+-                                             bis_size={"{\"x\":417,\"y\":3097,\"w\":47,\"h\":47,\"abs_x\":1635,\"abs..."}
+                                            >
+                                            <p
+                                              className="font-display text-base font-bold leading-tight"
+-                                             bis_size={"{\"x\":477,\"y\":3111,\"w\":149,\"h\":19,\"abs_x\":1695,\"ab..."}
+                                            >
+                                              <span
+                                                className="text-brand-teal"
+-                                               bis_size={"{\"x\":541,\"y\":3111,\"w\":15,\"h\":20,\"abs_x\":1759,\"a..."}
+                                              >
++                                               et
+                                              ...
+                                          <p
+                                            className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground"
+-                                           bis_size={"{\"x\":417,\"y\":3161,\"w\":320,\"h\":91,\"abs_x\":1635,\"abs_..."}
+                                          >
++                                           Le site du groupe « Culture et mobilité » : garder une trace de nos sorties...
+                                          <p
+                                            className="mt-3 flex items-start gap-1.5 text-xs text-muted-foreground"
+-                                           bis_size={"{\"x\":417,\"y\":3264,\"w\":341,\"h\":15,\"abs_x\":1635,\"abs_..."}
+                                          >
+                                            <MapPin className="mt-0.5 h-3..." aria-hidden={true}>
+                                              <svg
+                                                ref={null}
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width={24}
+                                                height={24}
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth={2}
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                className="lucide lucide-map-pin mt-0.5 h-3.5 w-3.5 shrink-0 text-bran..."
+                                                aria-hidden={true}
+-                                               bis_size={"{\"x\":417,\"y\":3266,\"w\":13,\"h\":13,\"abs_x\":1635,\"a..."}
+                                              >
+                                                <path
+                                                  d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 ..."
+-                                                 bis_size={"{\"x\":419,\"y\":3267,\"w\":9,\"h\":11,\"abs_x\":1637,\"..."}
+                                                >
+                                                <circle
+                                                  cx="12"
+                                                  cy="10"
+                                                  r="3"
+-                                                 bis_size={"{\"x\":422,\"y\":3270,\"w\":3,\"h\":3,\"abs_x\":1640,\"a..."}
+                                                >
+                                            ...
+                                        <nav
+                                          aria-label="Espaces du site"
+-                                         bis_size={"{\"x\":798,\"y\":3097,\"w\":341,\"h\":293,\"abs_x\":2016,\"abs_y..."}
+                                        >
+                                          <p
+                                            className="font-display text-sm font-semibold tracking-wide text-foregroun..."
+-                                           bis_size={"{\"x\":798,\"y\":3097,\"w\":341,\"h\":20,\"abs_x\":2016,\"abs_..."}
+                                          >
++                                           Les espaces
+                                          <ul
+                                            className="mt-4 space-y-2.5 text-sm text-muted-foreground"
+-                                           bis_size={"{\"x\":798,\"y\":3133,\"w\":341,\"h\":257,\"abs_x\":2016,\"abs..."}
+                                          >
+                                            <li
+                                              className="rounded-lg bg-white/60 px-3 py-2"
+-                                             bis_size={"{\"x\":798,\"y\":3133,\"w\":341,\"h\":47,\"abs_x\":2016,\"ab..."}
+                                            >
+                                              <button
+                                                onClick={function onClick}
+                                                className="min-h-8 text-left transition hover:text-brand-teal hover:un..."
+-                                               bis_size={"{\"x\":810,\"y\":3141,\"w\":173,\"h\":31,\"abs_x\":2028,\"..."}
+                                              >
++                                               {"Sorties & lieux à découvrir"}
+                                            <li
+-                                             bis_size={"{\"x\":798,\"y\":3191,\"w\":341,\"h\":31,\"abs_x\":2016,\"ab..."}
+                                            >
+                                              <button
+                                                onClick={function onClick}
+                                                className="min-h-8 text-left transition hover:text-brand-teal hover:un..."
+-                                               bis_size={"{\"x\":798,\"y\":3191,\"w\":121,\"h\":31,\"abs_x\":2016,\"..."}
+                                              >
++                                               Journal du groupe
+                                            <li
+-                                             bis_size={"{\"x\":798,\"y\":3233,\"w\":341,\"h\":31,\"abs_x\":2016,\"ab..."}
+                                            >
+                                              <button
+                                                onClick={function onClick}
+                                                className="min-h-8 text-left transition hover:text-brand-teal hover:un..."
+-                                               bis_size={"{\"x\":798,\"y\":3233,\"w\":205,\"h\":31,\"abs_x\":2016,\"..."}
+                                              >
++                                               Sondage de la prochaine sortie
+                                            <li
+-                                             bis_size={"{\"x\":798,\"y\":3275,\"w\":341,\"h\":31,\"abs_x\":2016,\"ab..."}
+                                            >
+                                              <button
+                                                onClick={function onClick}
+                                                className="min-h-8 text-left transition hover:text-brand-teal hover:un..."
+-                                               bis_size={"{\"x\":798,\"y\":3275,\"w\":164,\"h\":31,\"abs_x\":2016,\"..."}
+                                              >
++                                               Galerie photo (membres)
+                                            <li
+-                                             bis_size={"{\"x\":798,\"y\":3317,\"w\":341,\"h\":31,\"abs_x\":2016,\"ab..."}
+                                            >
+                                              <button
+                                                onClick={function onClick}
+                                                className="min-h-8 text-left transition hover:text-brand-teal hover:un..."
+-                                               bis_size={"{\"x\":798,\"y\":3317,\"w\":165,\"h\":31,\"abs_x\":2016,\"..."}
+                                              >
++                                               Drive partagé (membres)
+                                            <li
+-                                             bis_size={"{\"x\":798,\"y\":3359,\"w\":341,\"h\":31,\"abs_x\":2016,\"ab..."}
+                                            >
+                                              <button
+                                                onClick={function onClick}
+                                                className="min-h-8 text-left transition hover:text-brand-teal hover:un..."
+-                                               bis_size={"{\"x\":798,\"y\":3359,\"w\":81,\"h\":31,\"abs_x\":2016,\"a..."}
+                                              >
++                                               Mon espace
+                                        <div
+-                                         bis_size={"{\"x\":1180,\"y\":3097,\"w\":341,\"h\":293,\"abs_x\":2398,\"abs_..."}
+                                        >
+                                          <p
+                                            className="font-display text-sm font-semibold tracking-wide text-foregroun..."
+-                                           bis_size={"{\"x\":1180,\"y\":3097,\"w\":341,\"h\":20,\"abs_x\":2398,\"abs..."}
+                                          >
++                                           Le projet « Culture et mobilité »
+                                          <p
+                                            className="mt-4 text-sm leading-relaxed text-muted-foreground"
+-                                           bis_size={"{\"x\":1180,\"y\":3133,\"w\":341,\"h\":22,\"abs_x\":2398,\"abs..."}
+                                          >
++                                           Un projet transversal porté par trois dispositifs :
+                                          <ul
+                                            className="mt-3 space-y-2 text-sm text-muted-foreground"
+-                                           bis_size={"{\"x\":1180,\"y\":3168,\"w\":341,\"h\":163,\"abs_x\":2398,\"ab..."}
+                                          >
+                                            <li
+                                              className="rounded-lg bg-white/60 px-3 py-2"
+-                                             bis_size={"{\"x\":1180,\"y\":3168,\"w\":341,\"h\":35,\"abs_x\":2398,\"a..."}
+                                            >
++                                             APIJE Mobilité — Marie Vincent
+                                            <li
+                                              className="rounded-lg bg-white/60 px-3 py-2"
+-                                             bis_size={"{\"x\":1180,\"y\":3212,\"w\":341,\"h\":55,\"abs_x\":2398,\"a..."}
+                                            >
++                                             SCIC IFAD Accompagnement Intégré — Anne Marie Lamboray
+                                            <li
+                                              className="rounded-lg bg-white/60 px-3 py-2"
+-                                             bis_size={"{\"x\":1180,\"y\":3276,\"w\":341,\"h\":55,\"abs_x\":2398,\"a..."}
+                                            >
++                                             IFAD SCOP Parcours Santé Mieux Être — Leslie Vorstermans
+                                      <div
+                                        className="border-t border-brand-teal/10"
+-                                       bis_size={"{\"x\":0,\"y\":3439,\"w\":1938,\"h\":57,\"abs_x\":1218,\"abs_y\":3..."}
+                                      >
+                                        <div
+                                          className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-..."
+-                                         bis_size={"{\"x\":393,\"y\":3440,\"w\":1151,\"h\":55,\"abs_x\":1611,\"abs_y..."}
+                                        >
+                                          <p
+-                                           bis_size={"{\"x\":417,\"y\":3460,\"w\":342,\"h\":15,\"abs_x\":1635,\"abs_..."}
+                                          >
++                                           © 2026 Projet « Culture et mobilité » — tous droits réservés.
+                                          <p
+                                            className="flex items-center gap-1"
+-                                           bis_size={"{\"x\":1365,\"y\":3460,\"w\":155,\"h\":15,\"abs_x\":2583,\"abs..."}
+                                          >
+                                            <Heart className="h-3.5 w-3...." aria-hidden={true}>
+                                              <svg
+                                                ref={null}
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width={24}
+                                                height={24}
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth={2}
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                className="lucide lucide-heart h-3.5 w-3.5 fill-brand-orange text-bran..."
+                                                aria-hidden={true}
+-                                               bis_size={"{\"x\":1420,\"y\":3461,\"w\":13,\"h\":13,\"abs_x\":2638,\"..."}
+                                              >
+                                                <path
+                                                  d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4..."
+-                                                 bis_size={"{\"x\":1421,\"y\":3463,\"w\":11,\"h\":10,\"abs_x\":2639,..."}
+                                                >
+                                            ...
+                            ...
+                  ...
+
+
+
+    at div (<anonymous>:null:null)
+
+Next.js version: 16.1.3 (Turbopack)
