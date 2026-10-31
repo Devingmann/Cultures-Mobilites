@@ -53,6 +53,8 @@ export async function GET(req: NextRequest) {
       createdAt: f.createdAt,
       uploader: f.uploader,
       isMine: f.uploaderId === user.id,
+      // Si fileName est une URL Blob, on l'expose directement, sinon on gère selon le besoin
+      url: f.fileName.startsWith("http") ? f.fileName : null,
     }));
 
     if (kind) {
@@ -99,15 +101,15 @@ export async function POST(req: NextRequest) {
       }
 
       let fileUrlOrName = "";
+      const buffer = Buffer.from(await file.arrayBuffer());
 
       // Si le token Vercel Blob est configuré (en prod sur Vercel), on l'utilise
       if (process.env.BLOB_READ_WRITE_TOKEN) {
         const blob = await put(file.name, file, { access: "public" });
         fileUrlOrName = blob.url;
       } else {
-        // Sinon (en local sans token), on utilise votre méthode de stockage local d'origine
+        // Sinon (en local sans token), on utilise le stockage local
         const storedName = safeStoredName(file.name, file.type || "application/octet-stream");
-        const buffer = Buffer.from(await file.arrayBuffer());
         await writeStoredFile(storedName, buffer);
         fileUrlOrName = storedName;
       }
@@ -138,7 +140,6 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ created: created.length, items: created });
   } catch (err) {
-    // AFFICHAGE DE LA VRAIE ERREUR DANS LA CONSOLE DU SERVEUR POUR VOIR CE QUI BLOQUE
     console.error("UPLOAD ERROR DETAILS:", err);
     if (err instanceof HttpError) {
       return NextResponse.json({ error: err.message }, { status: err.status });
