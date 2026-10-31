@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
+import { put } from "@vercel/blob"; // Import de Vercel Blob
 
 export const STORAGE_DIR = path.join(process.cwd(), "storage", "uploads");
 export const COVERS_DIR = path.join(process.cwd(), "public", "covers");
@@ -57,16 +58,37 @@ export function sanitizeName(name: string): string {
 }
 
 export async function ensureStorage(): Promise<void> {
-  await fs.mkdir(STORAGE_DIR, { recursive: true });
+  try {
+    await fs.mkdir(STORAGE_DIR, { recursive: true });
+  } catch {
+    // Ignore si on est sur un système en lecture seule (comme Vercel)
+  }
 }
 
 export async function ensureCovers(): Promise<void> {
-  await fs.mkdir(COVERS_DIR, { recursive: true });
+  try {
+    await fs.mkdir(COVERS_DIR, { recursive: true });
+  } catch {
+    // Ignore
+  }
 }
 
-export async function writeStoredFile(storedName: string, buffer: Buffer): Promise<void> {
+/* MODIFICATION CLÉ : Si Vercel Blob est configuré, on envoie sur le cloud. Sinon, stockage local. */
+export async function writeStoredFile(storedName: string, buffer: Buffer, originalFileName = "file"): Promise<string> {
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    try {
+      const blob = await put(originalFileName, buffer, { access: "public", addRandomSuffix: true });
+      return blob.url; // Retourne l'URL Cloud permanente
+    } catch (e) {
+      console.error("Erreur Vercel Blob:", e);
+    }
+  }
+
+  // Fallback stockage local (pour le dev sur PC)
   await ensureStorage();
-  await fs.writeFile(path.join(STORAGE_DIR, storedName), buffer);
+  const filePath = path.join(STORAGE_DIR, storedName);
+  await fs.writeFile(filePath, buffer);
+  return storedName;
 }
 
 export async function readStoredFile(storedName: string): Promise<Buffer> {
@@ -74,6 +96,7 @@ export async function readStoredFile(storedName: string): Promise<Buffer> {
 }
 
 export async function deleteStoredFile(storedName: string): Promise<void> {
+  if (storedName.startsWith("http")) return; // Ne rien faire si c'est une URL cloud
   await fs.unlink(path.join(STORAGE_DIR, storedName)).catch(() => undefined);
 }
 
@@ -89,7 +112,6 @@ export function formatSize(bytes: number): string {
   return `${(bytes / (1024 * 1024 * 1024)).toFixed(2)} Go`;
 }
 
-/*Slug d'article : sans accents, minuscules, tirets.*/
 export function slugify(input: string): string {
   return input
     .normalize("NFD")
@@ -100,7 +122,6 @@ export function slugify(input: string): string {
     .slice(0, 80) || "article";
 }
 
-/*Extrait lisible (markdown nettoyé).*/
 export function excerptOf(content: string, max = 180): string {
   const plain = content
     .replace(/[#*_>`\-]{1,}/g, " ")
