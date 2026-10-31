@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
-import { put, del } from "@vercel/blob";
+import { put } from "@vercel/blob";
 
 export const STORAGE_DIR = path.join(process.cwd(), "storage", "uploads");
 export const COVERS_DIR = path.join(process.cwd(), "public", "covers");
@@ -57,12 +57,7 @@ export function sanitizeName(name: string): string {
   return name.normalize("NFC").replace(/[\u0000-\u001f<>:"/\\|?*]+/g, "").trim().slice(0, 180) || "fichier";
 }
 
-export function useBlob(): boolean {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
-}
-
 export async function ensureStorage(): Promise<void> {
-  if (useBlob()) return;
   try {
     await fs.mkdir(STORAGE_DIR, { recursive: true });
   } catch {}
@@ -74,69 +69,26 @@ export async function ensureCovers(): Promise<void> {
   } catch {}
 }
 
-/** Upload vers Blob (prod) ou disque local (dev sans token). Retourne l’URL ou le nom local. */
-export async function storeFile(
-  file: File | Buffer,
-  originalName: string,
-  mime: string
-): Promise<string> {
-  const pathname = safeStoredName(originalName, mime);
-
-  if (useBlob()) {
-    const body = file instanceof File ? file : file;
-    const blob = await put(pathname, body, {
-      access: "public",
-      contentType: mime || "application/octet-stream",
-      addRandomSuffix: false,
-    });
-    return blob.url;
-  }
-
-  // Local uniquement (hors Vercel)
-  if (process.env.VERCEL) {
-    throw new Error(
-      "BLOB_READ_WRITE_TOKEN manquant. Crée un Blob store dans Vercel → Storage et relie-le au projet."
-    );
-  }
-
-  const buffer = file instanceof File ? Buffer.from(await file.arrayBuffer()) : file;
-  await ensureStorage();
-  await fs.writeFile(path.join(STORAGE_DIR, pathname), buffer);
-  return pathname;
-}
-
-export async function writeStoredFile(
-  storedName: string,
-  buffer: Buffer,
-  _originalFileName = "file"
-): Promise<void> {
-  if (useBlob()) return;
-  if (process.env.VERCEL) {
-    throw new Error("BLOB_READ_WRITE_TOKEN manquant sur Vercel.");
+export async function writeStoredFile(storedName: string, buffer: Buffer, originalFileName = "file"): Promise<void> {
+  // Si on est sur Vercel avec le Blob configuré, on ne fait rien en local (géré par l'API)
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    return;
   }
   await ensureStorage();
   await fs.writeFile(path.join(STORAGE_DIR, storedName), buffer);
 }
 
 export async function readStoredFile(storedName: string): Promise<Buffer> {
-  if (storedName.startsWith("http://") || storedName.startsWith("https://")) {
+  if (storedName.startsWith("http")) {
     const res = await fetch(storedName);
-    if (!res.ok) throw new Error(`Impossible de lire le blob: ${res.status}`);
-    return Buffer.from(await res.arrayBuffer());
+    const arrayBuffer = await res.arrayBuffer();
+    return Buffer.from(arrayBuffer);
   }
   return fs.readFile(path.join(STORAGE_DIR, storedName));
 }
 
 export async function deleteStoredFile(storedName: string): Promise<void> {
-  if (!storedName) return;
-  if (storedName.startsWith("http://") || storedName.startsWith("https://")) {
-    try {
-      await del(storedName);
-    } catch {
-      // ignore si déjà supprimé
-    }
-    return;
-  }
+  if (storedName.startsWith("http")) return;
   await fs.unlink(path.join(STORAGE_DIR, storedName)).catch(() => undefined);
 }
 
@@ -153,15 +105,13 @@ export function formatSize(bytes: number): string {
 }
 
 export function slugify(input: string): string {
-  return (
-    input
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "")
-      .slice(0, 80) || "article"
-  );
+  return input
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80) || "article";
 }
 
 export function excerptOf(content: string, max = 180): string {

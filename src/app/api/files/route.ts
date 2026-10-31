@@ -53,8 +53,8 @@ export async function GET(req: NextRequest) {
       createdAt: f.createdAt,
       uploader: f.uploader,
       isMine: f.uploaderId === user.id,
-      // Si fileName est une URL Blob, on l'expose directement, sinon on gère selon le besoin
-      url: f.fileName.startsWith("http") ? f.fileName : null,
+      // On transmet l'URL publique (qu'elle vienne de Vercel Blob ou d'un chemin web)
+      url: f.fileName.startsWith("http") ? f.fileName : `/api/files/download/${f.fileName}`,
     }));
 
     if (kind) {
@@ -72,7 +72,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-/* POST : upload intelligent (Vercel Blob si token présent, sinon stockage local) */
+/* POST : upload direct vers Vercel Blob en production */
 export async function POST(req: NextRequest) {
   try {
     const user = await requireUser();
@@ -100,18 +100,18 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      let fileUrlOrName = "";
-      const buffer = Buffer.from(await file.arrayBuffer());
+      let fileUrl = "";
 
-      // Si le token Vercel Blob est configuré (en prod sur Vercel), on l'utilise
+      // Si le token Vercel Blob est présent, on envoie sur le Cloud Vercel
       if (process.env.BLOB_READ_WRITE_TOKEN) {
-        const blob = await put(file.name, file, { access: "public" });
-        fileUrlOrName = blob.url;
+        const blob = await put(file.name, file, { access: "public", addRandomSuffix: true });
+        fileUrl = blob.url;
       } else {
-        // Sinon (en local sans token), on utilise le stockage local
+        // En local pur sans token configuré, fallback sur le stockage local de dev
         const storedName = safeStoredName(file.name, file.type || "application/octet-stream");
+        const buffer = Buffer.from(await file.arrayBuffer());
         await writeStoredFile(storedName, buffer);
-        fileUrlOrName = storedName;
+        fileUrl = storedName;
       }
 
       const item = await db.fileItem.create({
@@ -119,7 +119,7 @@ export async function POST(req: NextRequest) {
           title: title || sanitizeName(file.name),
           description,
           category: categoryRaw,
-          fileName: fileUrlOrName,
+          fileName: fileUrl,
           originalName: sanitizeName(file.name),
           mimeType: file.type || "application/octet-stream",
           size: file.size,
@@ -131,7 +131,7 @@ export async function POST(req: NextRequest) {
         id: item.id,
         title: item.title,
         kind: kindFromMime(item.mimeType),
-        url: fileUrlOrName,
+        url: fileUrl,
       });
     }
 
