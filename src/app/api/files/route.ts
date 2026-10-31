@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireUser, HttpError } from "@/lib/auth";
+import { put } from "@vercel/blob"; // Import de Vercel Blob
 import {
   MAX_FILE_SIZE,
   CATEGORIES,
   isCategory,
   kindFromMime,
   sanitizeName,
-  safeStoredName,
-  writeStoredFile,
   formatSize,
 } from "@/lib/files";
 
@@ -69,7 +68,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-/* POST : upload par compte (plusieurs fichiers possibles). */
+/* POST : upload par compte (plusieurs fichiers possibles) vers Vercel Blob. */
 export async function POST(req: NextRequest) {
   try {
     const user = await requireUser();
@@ -96,26 +95,31 @@ export async function POST(req: NextRequest) {
           `« ${file.name} » dépasse la limite de ${formatSize(MAX_FILE_SIZE)}.`
         );
       }
-      const storedName = safeStoredName(file.name, file.type || "application/octet-stream");
-      const buffer = Buffer.from(await file.arrayBuffer());
-      await writeStoredFile(storedName, buffer);
 
+      // Envoi direct vers le stockage Cloud Vercel Blob
+      const blob = await put(file.name, file, {
+        access: "public",
+      });
+
+      // On enregistre l'URL publique de Vercel Blob dans le champ `fileName` (ou un champ équivalent)
       const item = await db.fileItem.create({
         data: {
           title: title || sanitizeName(file.name),
           description,
           category: categoryRaw,
-          fileName: storedName,
+          fileName: blob.url, // Stocke l'URL cloud permanente
           originalName: sanitizeName(file.name),
           mimeType: file.type || "application/octet-stream",
           size: file.size,
           uploaderId: user.id,
         },
       });
+
       created.push({
         id: item.id,
         title: item.title,
         kind: kindFromMime(item.mimeType),
+        url: blob.url,
       });
     }
 
