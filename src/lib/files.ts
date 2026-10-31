@@ -92,6 +92,12 @@ export async function writeStoredFile(storedName: string, buffer: Buffer, origin
 }
 
 export async function readStoredFile(storedName: string): Promise<Buffer> {
+  // Si c'est une URL Vercel Blob, on ne fait pas de fs.readFile
+  if (storedName.startsWith("http")) {
+    const res = await fetch(storedName);
+    const arrayBuffer = await res.arrayBuffer();
+    return Buffer.from(arrayBuffer);
+  }
   return fs.readFile(path.join(STORAGE_DIR, storedName));
 }
 
