@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
-import { put } from "@vercel/blob"; // Import de Vercel Blob
+import { put } from "@vercel/blob";
 
 export const STORAGE_DIR = path.join(process.cwd(), "storage", "uploads");
 export const COVERS_DIR = path.join(process.cwd(), "public", "covers");
@@ -60,39 +60,25 @@ export function sanitizeName(name: string): string {
 export async function ensureStorage(): Promise<void> {
   try {
     await fs.mkdir(STORAGE_DIR, { recursive: true });
-  } catch {
-    // Ignore si on est sur un système en lecture seule (comme Vercel)
-  }
+  } catch {}
 }
 
 export async function ensureCovers(): Promise<void> {
   try {
     await fs.mkdir(COVERS_DIR, { recursive: true });
-  } catch {
-    // Ignore
-  }
+  } catch {}
 }
 
-/* MODIFICATION CLÉ : Si Vercel Blob est configuré, on envoie sur le cloud. Sinon, stockage local. */
-export async function writeStoredFile(storedName: string, buffer: Buffer, originalFileName = "file"): Promise<string> {
+export async function writeStoredFile(storedName: string, buffer: Buffer, originalFileName = "file"): Promise<void> {
+  // Si on est sur Vercel avec le Blob configuré, on ne fait rien en local (géré par l'API)
   if (process.env.BLOB_READ_WRITE_TOKEN) {
-    try {
-      const blob = await put(originalFileName, buffer, { access: "public", addRandomSuffix: true });
-      return blob.url; // Retourne l'URL Cloud permanente
-    } catch (e) {
-      console.error("Erreur Vercel Blob:", e);
-    }
+    return;
   }
-
-  // Fallback stockage local (pour le dev sur PC)
   await ensureStorage();
-  const filePath = path.join(STORAGE_DIR, storedName);
-  await fs.writeFile(filePath, buffer);
-  return storedName;
+  await fs.writeFile(path.join(STORAGE_DIR, storedName), buffer);
 }
 
 export async function readStoredFile(storedName: string): Promise<Buffer> {
-  // Si c'est une URL Vercel Blob, on ne fait pas de fs.readFile
   if (storedName.startsWith("http")) {
     const res = await fetch(storedName);
     const arrayBuffer = await res.arrayBuffer();
@@ -102,7 +88,7 @@ export async function readStoredFile(storedName: string): Promise<Buffer> {
 }
 
 export async function deleteStoredFile(storedName: string): Promise<void> {
-  if (storedName.startsWith("http")) return; // Ne rien faire si c'est une URL cloud
+  if (storedName.startsWith("http")) return;
   await fs.unlink(path.join(STORAGE_DIR, storedName)).catch(() => undefined);
 }
 
