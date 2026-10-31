@@ -1,7 +1,6 @@
 import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
-import { put } from "@vercel/blob";
 
 export const STORAGE_DIR = path.join(process.cwd(), "storage", "uploads");
 export const COVERS_DIR = path.join(process.cwd(), "public", "covers");
@@ -54,41 +53,54 @@ export function safeStoredName(originalName: string, mime: string): string {
 }
 
 export function sanitizeName(name: string): string {
-  return name.normalize("NFC").replace(/[\u0000-\u001f<>:"/\\|?*]+/g, "").trim().slice(0, 180) || "fichier";
+  return (
+    name
+      .normalize("NFC")
+      .replace(/[\u0000-\u001f<>:"/\\|?*]+/g, "")
+      .trim()
+      .slice(0, 180) || "fichier"
+  );
 }
 
 export async function ensureStorage(): Promise<void> {
   try {
     await fs.mkdir(STORAGE_DIR, { recursive: true });
-  } catch {}
+  } catch {
+    /* ignore */
+  }
 }
 
 export async function ensureCovers(): Promise<void> {
   try {
     await fs.mkdir(COVERS_DIR, { recursive: true });
-  } catch {}
+  } catch {
+    /* ignore */
+  }
 }
 
-export async function writeStoredFile(storedName: string, buffer: Buffer, originalFileName = "file"): Promise<void> {
-  // Si on est sur Vercel avec le Blob configuré, on ne fait rien en local (géré par l'API)
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
-    return;
-  }
+/** Ancien stockage local uniquement (dev sans Cloudinary). */
+export async function writeStoredFile(
+  storedName: string,
+  buffer: Buffer
+): Promise<void> {
   await ensureStorage();
   await fs.writeFile(path.join(STORAGE_DIR, storedName), buffer);
 }
 
 export async function readStoredFile(storedName: string): Promise<Buffer> {
-  if (storedName.startsWith("http")) {
+  if (storedName.startsWith("http://") || storedName.startsWith("https://")) {
     const res = await fetch(storedName);
-    const arrayBuffer = await res.arrayBuffer();
-    return Buffer.from(arrayBuffer);
+    if (!res.ok) throw new Error("Lecture distante impossible.");
+    return Buffer.from(await res.arrayBuffer());
   }
   return fs.readFile(path.join(STORAGE_DIR, storedName));
 }
 
 export async function deleteStoredFile(storedName: string): Promise<void> {
-  if (storedName.startsWith("http")) return;
+  // Cloudinary / URL distante : on ne supprime que en base (optionnel : Admin API)
+  if (storedName.startsWith("http://") || storedName.startsWith("https://")) {
+    return;
+  }
   await fs.unlink(path.join(STORAGE_DIR, storedName)).catch(() => undefined);
 }
 
@@ -100,18 +112,21 @@ export async function deleteCover(coverName: string): Promise<void> {
 export function formatSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} o`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} Ko`;
-  if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} Mo`;
+  if (bytes < 1024 * 1024 * 1024)
+    return `${(bytes / (1024 * 1024)).toFixed(1)} Mo`;
   return `${(bytes / (1024 * 1024 * 1024)).toFixed(2)} Go`;
 }
 
 export function slugify(input: string): string {
-  return input
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 80) || "article";
+  return (
+    input
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 80) || "article"
+  );
 }
 
 export function excerptOf(content: string, max = 180): string {

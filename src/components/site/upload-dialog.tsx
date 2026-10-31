@@ -24,9 +24,17 @@ import { UploadCloud, FileText, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
+import { uploadToCloudinary } from "@/lib/cloudinary";
 import { CATEGORIES, type FileDto } from "./types";
 
 const MAX = 50 * 1024 * 1024;
+
+const FOLDER_BY_CATEGORY: Record<keyof typeof CATEGORIES, string> = {
+  PHOTO: "photo",
+  CREATION: "creation",
+  TEMOIGNAGE: "temoignage",
+  DOCUMENT: "document",
+};
 
 export function UploadDialog({
   open,
@@ -46,6 +54,7 @@ export function UploadDialog({
   const [consent, setConsent] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
 
@@ -68,6 +77,7 @@ export function UploadDialog({
     setDescription("");
     setConsent(false);
     setLoading(false);
+    setProgress("");
   };
 
   const submit = async () => {
@@ -81,15 +91,38 @@ export function UploadDialog({
     }
     setLoading(true);
     try {
-      const fd = new FormData();
-      for (const f of files) fd.append("files", f);
-      fd.append("title", title);
-      fd.append("description", description);
-      fd.append("category", category);
+      const folder = FOLDER_BY_CATEGORY[category];
+      const items: {
+        title: string;
+        description: string;
+        category: string;
+        fileName: string;
+        originalName: string;
+        mimeType: string;
+        size: number;
+      }[] = [];
+
+      for (let i = 0; i < files.length; i++) {
+        const f = files[i];
+        setProgress(`Envoi ${i + 1}/${files.length} : ${f.name}`);
+        const cloud = await uploadToCloudinary(f, folder);
+        items.push({
+          title: title || f.name,
+          description,
+          category,
+          fileName: cloud.secure_url,
+          originalName: f.name,
+          mimeType: f.type || "application/octet-stream",
+          size: cloud.bytes || f.size,
+        });
+      }
+
+      setProgress("Enregistrement…");
       const res = await api<{ created: number }>("/api/files", {
         method: "POST",
-        body: fd,
+        body: JSON.stringify({ items }),
       });
+
       toast.success(
         res.created === 1
           ? "Fichier ajouté au drive."
@@ -102,6 +135,7 @@ export function UploadDialog({
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Envoi impossible.");
       setLoading(false);
+      setProgress("");
     }
   };
 
@@ -122,7 +156,6 @@ export function UploadDialog({
         </DialogHeader>
 
         <div className="space-y-4">
-          {/* Zone de dépôt */}
           <div
             role="button"
             tabIndex={0}
@@ -194,7 +227,10 @@ export function UploadDialog({
 
           <div className="space-y-1.5">
             <Label htmlFor="upload-category">Catégorie</Label>
-            <Select value={category} onValueChange={(v) => setCategory(v as keyof typeof CATEGORIES)}>
+            <Select
+              value={category}
+              onValueChange={(v) => setCategory(v as keyof typeof CATEGORIES)}
+            >
               <SelectTrigger className="h-11 w-full rounded-xl">
                 <SelectValue />
               </SelectTrigger>
@@ -249,12 +285,18 @@ export function UploadDialog({
             </label>
           )}
 
+          {progress && (
+            <p className="text-center text-xs text-muted-foreground">{progress}</p>
+          )}
+
           <Button
             onClick={submit}
             disabled={loading}
             className="h-11 w-full rounded-xl bg-brand-teal hover:bg-brand-teal/90"
           >
-            {loading ? "Envoi en cours…" : `Envoyer ${files.length || ""} fichier${files.length > 1 ? "s" : ""}`.trim()}
+            {loading
+              ? "Envoi en cours…"
+              : `Envoyer ${files.length || ""} fichier${files.length > 1 ? "s" : ""}`.trim()}
           </Button>
         </div>
       </DialogContent>

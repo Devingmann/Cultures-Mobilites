@@ -39,6 +39,10 @@ export type FileDto = {
   createdAt: string;
   uploader: { id: string; name: string };
   isMine: boolean;
+  /** URL d'affichage (Cloudinary ou /api/files/.../raw) */
+  url: string;
+  /** URL de téléchargement */
+  downloadUrl: string;
 };
 
 export type FilesResponse = {

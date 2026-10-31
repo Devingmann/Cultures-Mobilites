@@ -221,17 +221,17 @@ export function DriveView({ navigate }: { navigate: (path: string) => void }) {
             >
               <div className="relative flex h-36 items-center justify-center overflow-hidden bg-gradient-to-br from-brand-teal/5 to-brand-violet/10">
                 {f.kind === "IMAGE" ? (
-                  <Image
-                    src={`/api/files/${f.id}/raw`}
-                    alt={f.title || f.originalName}
-                    width={400}
-                    height={300}
-                    className="h-full w-full object-cover"
-                    unoptimized
-                  />
-                ) : (
-                  <KindIcon kind={f.kind} />
-                )}
+  <Image
+    src={f.url}
+    alt={f.title || f.originalName}
+    width={400}
+    height={300}
+    className="h-full w-full object-cover"
+    unoptimized
+  />
+) : (
+  <KindIcon kind={f.kind} />
+)}
                 <Badge className="absolute left-2.5 top-2.5 rounded-full bg-white/90 px-2.5 text-[11px] font-medium text-foreground/80 shadow-soft">
                   {f.categoryEmoji} {f.categoryLabel}
                 </Badge>
@@ -254,9 +254,11 @@ export function DriveView({ navigate }: { navigate: (path: string) => void }) {
                     className="h-9 flex-1 rounded-full bg-muted text-xs font-medium hover:bg-brand-teal/10"
                   >
                     <a
-                      href={`/api/files/${f.id}/raw?dl=1`}
-                      aria-label={`Télécharger ${f.title || f.originalName}`}
-                    >
+  href={f.downloadUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={`Télécharger ${f.title || f.originalName}`}
+>
                       <Download className="mr-1 h-3.5 w-3.5" aria-hidden />
                       Télécharger
                     </a>

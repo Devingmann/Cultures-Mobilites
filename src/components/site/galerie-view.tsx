@@ -169,13 +169,13 @@ export function GalerieView({ navigate }: { navigate: (path: string) => void }) 
                 aria-label={`Agrandir ${f.title || f.originalName}`}
               >
                 <Image
-                  src={`/api/files/${f.id}/raw`}
-                  alt={f.title || f.originalName}
-                  width={600}
-                  height={600}
-                  className="h-auto w-full object-cover transition duration-300 group-hover:scale-[1.03]"
-                  unoptimized
-                />
+  src={f.url}
+  alt={f.title || f.originalName}
+  width={600}
+  height={600}
+  className="h-auto w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+  unoptimized
+/>
                 <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-2 bg-gradient-to-t from-black/70 to-transparent p-3.5 pt-8 text-left opacity-0 transition group-hover:translate-y-0 group-hover:opacity-100">
                   <p className="truncate text-sm font-semibold text-white">
                     {f.title || f.originalName}
@@ -231,14 +231,14 @@ export function GalerieView({ navigate }: { navigate: (path: string) => void }) 
           >
             <div className="max-h-[75vh] overflow-hidden rounded-2xl">
               <Image
-                src={`/api/files/${current.id}/raw`}
-                alt={current.title || current.originalName}
-                width={1400}
-                height={1400}
-                className="h-auto max-h-[75vh] w-auto object-contain"
-                unoptimized
-                priority
-              />
+  src={current.url}
+  alt={current.title || current.originalName}
+  width={1400}
+  height={1400}
+  className="h-auto max-h-[75vh] w-auto object-contain"
+  unoptimized
+  priority
+/>
             </div>
             <figcaption className="flex w-full flex-wrap items-center justify-center gap-3 rounded-2xl bg-white/10 px-4 py-3 text-white backdrop-blur">
               <span className="min-w-0 flex-1 text-center text-sm">

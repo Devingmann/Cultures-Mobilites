@@ -1,82 +1,78 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireUser, HttpError } from "@/lib/auth";
-import { put } from "@vercel/blob"; // <--- Import du stockage Cloud Vercel Blob
-import {
-  MAX_FILE_SIZE,
-  CATEGORIES,
-  isCategory,
-  kindFromMime,
-  sanitizeName,
-  formatSize,
-} from "@/lib/files";
+import { readStoredFile, sanitizeName } from "@/lib/files";
 
-// (Conservez votre fonction GET existante...)
-
-/* POST : upload par compte vers Vercel Blob. */
-export async function POST(req: NextRequest) {
+/* GET : stream du fichier — membres uniquement.
+   Si fileName est une URL Cloudinary → redirection. */
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
-    const user = await requireUser();
-    const form = await req.formData();
+    await requireUser();
+    const { id } = await params;
+    const file = await db.fileItem.findUnique({ where: { id } });
+    if (!file) throw new HttpError(404, "Fichier introuvable.");
 
-    const categoryRaw = String(form.get("category") ?? "PHOTO");
-    if (!isCategory(categoryRaw)) {
-      throw new HttpError(400, "Catégorie de fichier inconnue.");
-    }
-    const title = sanitizeName(String(form.get("title") ?? ""));
-    const description = String(form.get("description") ?? "").trim().slice(0, 400) || null;
-
-    const uploads = form.getAll("files").filter((f): f is File => f instanceof File);
-    if (uploads.length === 0) {
-      throw new HttpError(400, "Sélectionnez au moins un fichier.");
+    // Cloudinary / URL distante
+    if (
+      file.fileName.startsWith("http://") ||
+      file.fileName.startsWith("https://")
+    ) {
+      return NextResponse.redirect(file.fileName, 302);
     }
 
-    const created: unknown[] = [];
-    for (const file of uploads) {
-      if (file.size === 0) continue;
-      if (file.size > MAX_FILE_SIZE) {
-        throw new HttpError(
-          400,
-          `« ${file.name} » dépasse la limite de ${formatSize(MAX_FILE_SIZE)}.`
-        );
+    const buffer = await readStoredFile(file.fileName);
+    const download = req.nextUrl.searchParams.get("dl") === "1";
+    const disposition = download ? "attachment" : "inline";
+
+    const range = req.headers.get("range");
+    if (range) {
+      const match = /bytes=(\d*)-(\d*)/.exec(range);
+      if (match) {
+        const start = match[1] ? parseInt(match[1], 10) : 0;
+        const end = match[2] ? parseInt(match[2], 10) : buffer.length - 1;
+        const safeEnd = Math.min(end, buffer.length - 1);
+        if (start <= safeEnd) {
+          const chunk = buffer.subarray(start, safeEnd + 1);
+          return new NextResponse(new Uint8Array(chunk), {
+            status: 206,
+            headers: {
+              "Content-Type": file.mimeType,
+              "Content-Length": String(chunk.length),
+              "Content-Range": `bytes ${start}-${safeEnd}/${buffer.length}`,
+              "Accept-Ranges": "bytes",
+              "Content-Disposition": `${disposition}; filename="${encodeURIComponent(
+                sanitizeName(file.originalName)
+              )}"`,
+              "Cache-Control": "private, max-age=3600",
+            },
+          });
+        }
       }
-
-      // Envoi direct vers le stockage Cloud Vercel Blob
-      const blob = await put(file.name, file, {
-        access: "public",
-      });
-
-      // Stocke l'URL publique et permanente du cloud dans Prisma
-      const item = await db.fileItem.create({
-        data: {
-          title: title || sanitizeName(file.name),
-          description,
-          category: categoryRaw,
-          fileName: blob.url, // URL cloud permanente
-          originalName: sanitizeName(file.name),
-          mimeType: file.type || "application/octet-stream",
-          size: file.size,
-          uploaderId: user.id,
-        },
-      });
-
-      created.push({
-        id: item.id,
-        title: item.title,
-        kind: kindFromMime(item.mimeType),
-        url: blob.url,
-      });
     }
 
-    if (created.length === 0) {
-      throw new HttpError(400, "Aucun fichier valide reçu.");
-    }
-    return NextResponse.json({ created: created.length, items: created });
+    return new NextResponse(new Uint8Array(buffer), {
+      status: 200,
+      headers: {
+        "Content-Type": file.mimeType,
+        "Content-Length": String(buffer.length),
+        "Accept-Ranges": "bytes",
+        "Content-Disposition": `${disposition}; filename="${encodeURIComponent(
+          sanitizeName(file.originalName)
+        )}"`,
+        "Cache-Control": "private, max-age=3600",
+      },
+    });
   } catch (err) {
     if (err instanceof HttpError) {
       return NextResponse.json({ error: err.message }, { status: err.status });
     }
-    console.error("upload error", err);
-    return NextResponse.json({ error: "Envoi impossible pour le moment." }, { status: 500 });
+    console.error("file raw error", err);
+    return NextResponse.json(
+      { error: "Lecture du fichier impossible." },
+      { status: 500 }
+    );
   }
 }
