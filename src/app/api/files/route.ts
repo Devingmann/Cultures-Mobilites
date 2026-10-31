@@ -1,17 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireUser, HttpError } from "@/lib/auth";
-import { put } from "@vercel/blob"; // Import de Vercel Blob
+import { put } from "@vercel/blob";
 import {
   MAX_FILE_SIZE,
   CATEGORIES,
   isCategory,
   kindFromMime,
   sanitizeName,
+  safeStoredName,
+  writeStoredFile,
   formatSize,
 } from "@/lib/files";
 
-/* GET : liste du drive partagé (filtres catégorie, recherche, type). */
+/* GET : liste du drive partagé */
 export async function GET(req: NextRequest) {
   try {
     const user = await requireUser();
@@ -68,7 +70,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-/* POST : upload par compte (plusieurs fichiers possibles) vers Vercel Blob. */
+/* POST : upload intelligent (Vercel Blob si token présent, sinon stockage local) */
 export async function POST(req: NextRequest) {
   try {
     const user = await requireUser();
@@ -96,18 +98,26 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      // Envoi direct vers le stockage Cloud Vercel Blob
-      const blob = await put(file.name, file, {
-        access: "public",
-      });
+      let fileUrlOrName = "";
 
-      // On enregistre l'URL publique de Vercel Blob dans le champ `fileName` (ou un champ équivalent)
+      // Si le token Vercel Blob est configuré (en prod sur Vercel), on l'utilise
+      if (process.env.BLOB_READ_WRITE_TOKEN) {
+        const blob = await put(file.name, file, { access: "public" });
+        fileUrlOrName = blob.url;
+      } else {
+        // Sinon (en local sans token), on utilise votre méthode de stockage local d'origine
+        const storedName = safeStoredName(file.name, file.type || "application/octet-stream");
+        const buffer = Buffer.from(await file.arrayBuffer());
+        await writeStoredFile(storedName, buffer);
+        fileUrlOrName = storedName;
+      }
+
       const item = await db.fileItem.create({
         data: {
           title: title || sanitizeName(file.name),
           description,
           category: categoryRaw,
-          fileName: blob.url, // Stocke l'URL cloud permanente
+          fileName: fileUrlOrName,
           originalName: sanitizeName(file.name),
           mimeType: file.type || "application/octet-stream",
           size: file.size,
@@ -119,7 +129,7 @@ export async function POST(req: NextRequest) {
         id: item.id,
         title: item.title,
         kind: kindFromMime(item.mimeType),
-        url: blob.url,
+        url: fileUrlOrName,
       });
     }
 
@@ -128,10 +138,11 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ created: created.length, items: created });
   } catch (err) {
+    // AFFICHAGE DE LA VRAIE ERREUR DANS LA CONSOLE DU SERVEUR POUR VOIR CE QUI BLOQUE
+    console.error("UPLOAD ERROR DETAILS:", err);
     if (err instanceof HttpError) {
       return NextResponse.json({ error: err.message }, { status: err.status });
     }
-    console.error("upload error", err);
-    return NextResponse.json({ error: "Envoi impossible pour le moment." }, { status: 500 });
+    return NextResponse.json({ error: String(err instanceof Error ? err.message : "Envoi impossible pour le moment.") }, { status: 500 });
   }
 }
