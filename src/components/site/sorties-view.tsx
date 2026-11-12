@@ -13,10 +13,20 @@ import {
   Vote,
   ArrowRight,
   Footprints,
+  MessageCircle,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { mapsUrl, PROCHAINE, PROPOSITIONS, REALISEES, type Sortie } from "./sorties-data";
+import {
+  mapsUrl,
+  PROCHAINE,
+  PROPOSITIONS,
+  REALISEES,
+  CALENDRIER,
+  type Sortie,
+  type RendezVous,
+} from "./sorties-data";
 
 function StatutBadge({ s }: { s: Sortie }) {
   if (s.statut === "prochaine") {
@@ -87,6 +97,78 @@ function MapsButton({ s }: { s: Sortie }) {
   );
 }
 
+function CalendrierTable() {
+  let lastMois = "";
+  return (
+    <div className="overflow-hidden rounded-2xl border border-brand-teal/15 bg-white shadow-soft">
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[520px] text-left text-sm">
+          <thead>
+            <tr className="bg-brand-deep text-white">
+              <th className="px-4 py-3 font-semibold">Date</th>
+              <th className="px-4 py-3 font-semibold">Rendez-vous</th>
+              <th className="px-4 py-3 font-semibold">Lieu / précision</th>
+            </tr>
+          </thead>
+          <tbody>
+            {CALENDRIER.map((rdv, i) => {
+              const showMois = rdv.mois !== lastMois;
+              lastMois = rdv.mois;
+              return (
+                <>
+                  {showMois && (
+                    <tr key={`mois-${rdv.mois}`} className="bg-brand-teal/8">
+                      <td
+                        colSpan={3}
+                        className="px-4 py-2 text-xs font-bold uppercase tracking-wide text-brand-deep"
+                      >
+                        {rdv.mois}
+                      </td>
+                    </tr>
+                  )}
+                  <tr
+                    key={`${rdv.date}-${i}`}
+                    className={i % 2 === 0 ? "bg-white" : "bg-hero-wash/60"}
+                  >
+                    <td className="px-4 py-3 font-medium text-foreground">{rdv.date}</td>
+                    <td className="px-4 py-3">
+                      <span
+                        className={
+                          rdv.type === "sortie"
+                            ? "font-semibold text-brand-orange"
+                            : "font-semibold text-brand-violet"
+                        }
+                      >
+                        {rdv.label}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-muted-foreground">
+                      {rdv.lieu ? (
+                        <>
+                          {rdv.lieu}
+                          {rdv.aConfirmer && (
+                            <span className="ml-1 text-brand-orange">?</span>
+                          )}
+                        </>
+                      ) : (
+                        "—"
+                      )}
+                    </td>
+                  </tr>
+                </>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <p className="border-t border-brand-orange/20 bg-orange-warm/10 px-4 py-3 text-xs text-foreground/80">
+        <strong className="font-semibold text-brand-orange">À noter :</strong> les lieux
+        indiqués avec un point d&apos;interrogation restent à confirmer.
+      </p>
+    </div>
+  );
+}
+
 export function SortiesView({ navigate }: { navigate: (path: string) => void }) {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -99,15 +181,67 @@ export function SortiesView({ navigate }: { navigate: (path: string) => void }) 
           Sorties & lieux à découvrir
         </h1>
         <p className="mt-3 leading-relaxed text-foreground/70">
-          Les sorties culturelles du groupe : la prochaine rendez-vous, les lieux à
-          proposer au vote, et celles déjà vécues ensemble. Tarifs, horaires et
-          solutions de mobilité APIJE pour chaque étape.
+          Calendrier prévisionnel des sorties culturelles et ateliers intermédiaires,
+          fiches des lieux à proposer au vote, et celles déjà vécues ensemble.
         </p>
       </div>
 
-      {/* Prochaine sortie */}
+      {/* Calendrier prévisionnel */}
+      <section aria-labelledby="calendrier" className="mt-10">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 id="calendrier" className="font-display text-xl font-bold">
+              Calendrier des rendez-vous
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Décembre 2026 – Juin 2027 · Groupe « Culture et mobilité »
+            </p>
+          </div>
+          <Badge className="rounded-full border-0 bg-brand-teal/10 px-3 py-1 text-xs font-semibold text-brand-deep">
+            <CalendarDays className="mr-1.5 h-3.5 w-3.5" aria-hidden />
+            Prévisionnel
+          </Badge>
+        </div>
+
+        <div className="mt-5">
+          <CalendrierTable />
+        </div>
+
+        {/* Appel Telegram */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="mt-6 flex flex-col gap-4 rounded-3xl border border-brand-violet/20 bg-brand-violet/5 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6"
+        >
+          <div className="flex gap-3">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-brand-violet text-white">
+              <MessageCircle className="h-5 w-5" aria-hidden />
+            </span>
+            <div>
+              <p className="font-display text-base font-semibold text-brand-deep">
+                Proposez vos idées sur Telegram
+              </p>
+              <p className="mt-1 text-sm leading-relaxed text-foreground/75">
+                N&apos;hésitez pas à échanger pour donner vos idées, vos envies, ou
+                partager des articles de sorties dans les alentours ou les villes
+                voisines proches. On construit le programme ensemble.
+              </p>
+            </div>
+          </div>
+          <Button
+            className="h-11 shrink-0 rounded-full bg-brand-violet px-5 text-sm font-semibold hover:bg-brand-violet/90"
+            onClick={() => navigate("sondage")}
+          >
+            <Vote className="mr-1.5 h-4 w-4" aria-hidden />
+            Voir le sondage
+          </Button>
+        </motion.div>
+      </section>
+
+      {/* Prochaine sortie (si définie) */}
       {PROCHAINE && (
-        <section aria-labelledby="prochaine-sortie" className="mt-10">
+        <section aria-labelledby="prochaine-sortie" className="mt-14">
           <h2 id="prochaine-sortie" className="font-display text-xl font-bold">
             Prochaine sortie
           </h2>
@@ -169,7 +303,7 @@ export function SortiesView({ navigate }: { navigate: (path: string) => void }) 
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
           Ces sorties sont à l&apos;étude : votez pour celles qui vous tentent le
-          plus, plusieurs choix possibles.
+          plus, plusieurs choix possibles. Partagez aussi vos envies sur Telegram.
         </p>
         <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {PROPOSITIONS.map((s, i) => (

@@ -1,5 +1,6 @@
 /* Fiches « Sorties & lieux à découvrir » du groupe.
-   Données structurées : statut, tarif, horaires, mobilité APIJE, lien Google Maps. */
+   Données structurées : statut, tarif, horaires, mobilité APIJE, lien Google Maps.
+   + Calendrier prévisionnel Décembre 2026 – Juin 2027. */
 
 export type SortieStatus = "prochaine" | "realisee" | "proposition";
 
@@ -20,26 +21,48 @@ export type Sortie = {
   illustration?: string;
 };
 
+export type RendezVous = {
+  mois: string;
+  date: string;
+  type: "sortie" | "atelier";
+  label: string;
+  lieu?: string;
+  aConfirmer?: boolean;
+};
+
 export function mapsUrl(s: Sortie): string {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
     `${s.nom}, ${s.adresse}`
   )}`;
 }
 
+/** Calendrier prévisionnel du groupe Culture et mobilité — Décembre 2026 – Juin 2027 */
+export const CALENDRIER: RendezVous[] = [
+  { mois: "DÉCEMBRE 2026", date: "Mardi 8 décembre", type: "sortie", label: "Sortie culturelle" },
+  { mois: "JANVIER 2027", date: "Jeudi 7 janvier (après-midi)", type: "atelier", label: "Atelier intermédiaire", lieu: "Ganges", aConfirmer: true },
+  { mois: "JANVIER 2027", date: "Jeudi 21 janvier", type: "sortie", label: "Sortie culturelle" },
+  { mois: "FÉVRIER 2027", date: "Jeudi 4 février (après-midi)", type: "atelier", label: "Atelier intermédiaire", lieu: "Saint-Mathieu-de-Tréviers", aConfirmer: true },
+  { mois: "MARS 2027", date: "Jeudi 4 mars", type: "sortie", label: "Sortie culturelle" },
+  { mois: "MARS 2027", date: "Jeudi 18 mars (après-midi)", type: "atelier", label: "Atelier intermédiaire", lieu: "Ganges", aConfirmer: true },
+  { mois: "AVRIL 2027", date: "Jeudi 22 avril", type: "sortie", label: "Sortie culturelle" },
+  { mois: "MAI 2027", date: "Jeudi 20 mai (après-midi)", type: "atelier", label: "Atelier intermédiaire" },
+  { mois: "JUIN 2027", date: "Jeudi 3 juin", type: "sortie", label: "Sortie culturelle" },
+  { mois: "JUIN 2027", date: "Jeudi 17 juin (après-midi)", type: "atelier", label: "Atelier intermédiaire" },
+];
+
 export const SORTIES: Sortie[] = [
   {
     id: "la-fenetre",
     nom: "Centre d'Art La Fenêtre",
     tagline: "Architecture, Design Graphique & Espace Urbain",
-    statut: "prochaine",
-    statutLabel: "Prochaine sortie",
-    date: "Jeudi 12 novembre 2026",
+    statut: "proposition",
+    statutLabel: "À proposer au groupe",
     periode: "Exposition d'automne 2026",
     lieu: "Montpellier — Place de la Comédie",
     adresse: "Aile droite de l'Opéra Comédie, Place de la Comédie, 34000 Montpellier",
     paragraphs: [
       "Installé dans l'aile droite de l'Opéra Orchestre National, face à la place de la Comédie, le centre d'art La Fenêtre décloisonne les disciplines en explorant l'architecture, le design d'objet, la typographie et la fabrique urbaine.",
-      "Une visite idéale pour relier marche urbaine, découverte spatiale et debriefing convivial en terrasse de la Comédie. Leslie Vorstermans se renseigne actuellement sur les créneaux pour notre sortie du jeudi 12 novembre.",
+      "Une visite idéale pour relier marche urbaine, découverte spatiale et debriefing convivial en terrasse de la Comédie.",
     ],
     tarif: "100 % gratuit pour toutes et tous",
     horaires: "Du mercredi au samedi, de 13h00 à 18h00",
