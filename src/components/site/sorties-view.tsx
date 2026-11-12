@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { Fragment } from "react";
 import { motion } from "framer-motion";
 import {
   Map,
@@ -14,7 +15,6 @@ import {
   ArrowRight,
   Footprints,
   MessageCircle,
-  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -25,7 +25,6 @@ import {
   REALISEES,
   CALENDRIER,
   type Sortie,
-  type RendezVous,
 } from "./sorties-data";
 
 function StatutBadge({ s }: { s: Sortie }) {
@@ -115,9 +114,9 @@ function CalendrierTable() {
               const showMois = rdv.mois !== lastMois;
               lastMois = rdv.mois;
               return (
-                <>
+                <Fragment key={`${rdv.date}-${i}`}>
                   {showMois && (
-                    <tr key={`mois-${rdv.mois}`} className="bg-brand-teal/8">
+                    <tr className="bg-brand-teal/8">
                       <td
                         colSpan={3}
                         className="px-4 py-2 text-xs font-bold uppercase tracking-wide text-brand-deep"
@@ -126,10 +125,7 @@ function CalendrierTable() {
                       </td>
                     </tr>
                   )}
-                  <tr
-                    key={`${rdv.date}-${i}`}
-                    className={i % 2 === 0 ? "bg-white" : "bg-hero-wash/60"}
-                  >
+                  <tr className={i % 2 === 0 ? "bg-white" : "bg-hero-wash/60"}>
                     <td className="px-4 py-3 font-medium text-foreground">{rdv.date}</td>
                     <td className="px-4 py-3">
                       <span
@@ -155,7 +151,7 @@ function CalendrierTable() {
                       )}
                     </td>
                   </tr>
-                </>
+                </Fragment>
               );
             })}
           </tbody>
